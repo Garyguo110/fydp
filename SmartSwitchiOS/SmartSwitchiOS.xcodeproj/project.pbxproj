@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		85C2F71A1A3CD76100329C14 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 85C2F7191A3CD76100329C14 /* main.m */; };
 		85C2F71D1A3CD76100329C14 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 85C2F71C1A3CD76100329C14 /* AppDelegate.m */; };
-		85C2F7201A3CD76100329C14 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85C2F71F1A3CD76100329C14 /* ViewController.m */; };
+		85C2F7201A3CD76100329C14 /* SSLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85C2F71F1A3CD76100329C14 /* SSLoginViewController.m */; };
 		85C2F7231A3CD76100329C14 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85C2F7211A3CD76100329C14 /* Main.storyboard */; };
 		85C2F7251A3CD76100329C14 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85C2F7241A3CD76100329C14 /* Images.xcassets */; };
 		85C2F7281A3CD76100329C14 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85C2F7261A3CD76100329C14 /* LaunchScreen.xib */; };
@@ -23,6 +23,16 @@
 		85C2F7581A3CF48300329C14 /* AFPropertyListRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 85C2F74E1A3CF48300329C14 /* AFPropertyListRequestOperation.m */; };
 		85C2F7591A3CF48300329C14 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 85C2F7501A3CF48300329C14 /* AFURLConnectionOperation.m */; };
 		85C2F75A1A3CF48300329C14 /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 85C2F7521A3CF48300329C14 /* AFXMLRequestOperation.m */; };
+		FF34DD4A1A89476A00A7544E /* SSMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF34DD491A89476A00A7544E /* SSMainViewController.m */; };
+		FF34DD4D1A8949C600A7544E /* SSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FF34DD4C1A8949C600A7544E /* SSManager.m */; };
+		FF4F43511A9F935C00C5F163 /* SSAddDeviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF4F43501A9F935C00C5F163 /* SSAddDeviceViewController.m */; };
+		FF4F43541AA0AC7600C5F163 /* SSEditDeviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF4F43531AA0AC7600C5F163 /* SSEditDeviceViewController.m */; };
+		FFEBDF491A8FCF99002E3AC1 /* SSCore.m in Sources */ = {isa = PBXBuildFile; fileRef = FFEBDF481A8FCF99002E3AC1 /* SSCore.m */; };
+		FFEBDF4F1A8FD9F6002E3AC1 /* SSSwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFEBDF4E1A8FD9F6002E3AC1 /* SSSwitchViewController.m */; };
+		FFEBDF521A96DF7A002E3AC1 /* SSLightsForSwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFEBDF511A96DF7A002E3AC1 /* SSLightsForSwitchViewController.m */; };
+		FFEBDF551A9AA0DA002E3AC1 /* SSLightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFEBDF541A9AA0DA002E3AC1 /* SSLightViewController.m */; };
+		FFEBDF581A9BC2EE002E3AC1 /* SSCoreTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FFEBDF571A9BC2EE002E3AC1 /* SSCoreTableViewCell.m */; };
+		FFEBDF5B1A9E4A57002E3AC1 /* SSSwitchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FFEBDF5A1A9E4A57002E3AC1 /* SSSwitchTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,8 +51,8 @@
 		85C2F7191A3CD76100329C14 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		85C2F71B1A3CD76100329C14 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		85C2F71C1A3CD76100329C14 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		85C2F71E1A3CD76100329C14 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		85C2F71F1A3CD76100329C14 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		85C2F71E1A3CD76100329C14 /* SSLoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SSLoginViewController.h; sourceTree = "<group>"; };
+		85C2F71F1A3CD76100329C14 /* SSLoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SSLoginViewController.m; sourceTree = "<group>"; };
 		85C2F7221A3CD76100329C14 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		85C2F7241A3CD76100329C14 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		85C2F7271A3CD76100329C14 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -68,6 +78,26 @@
 		85C2F7501A3CF48300329C14 /* AFURLConnectionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLConnectionOperation.m; sourceTree = "<group>"; };
 		85C2F7511A3CF48300329C14 /* AFXMLRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFXMLRequestOperation.h; sourceTree = "<group>"; };
 		85C2F7521A3CF48300329C14 /* AFXMLRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFXMLRequestOperation.m; sourceTree = "<group>"; };
+		FF34DD481A89476A00A7544E /* SSMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSMainViewController.h; sourceTree = "<group>"; };
+		FF34DD491A89476A00A7544E /* SSMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSMainViewController.m; sourceTree = "<group>"; };
+		FF34DD4B1A8949C600A7544E /* SSManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSManager.h; sourceTree = "<group>"; };
+		FF34DD4C1A8949C600A7544E /* SSManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSManager.m; sourceTree = "<group>"; };
+		FF4F434F1A9F935C00C5F163 /* SSAddDeviceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSAddDeviceViewController.h; sourceTree = "<group>"; };
+		FF4F43501A9F935C00C5F163 /* SSAddDeviceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSAddDeviceViewController.m; sourceTree = "<group>"; };
+		FF4F43521AA0AC7600C5F163 /* SSEditDeviceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSEditDeviceViewController.h; sourceTree = "<group>"; };
+		FF4F43531AA0AC7600C5F163 /* SSEditDeviceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSEditDeviceViewController.m; sourceTree = "<group>"; };
+		FFEBDF471A8FCF99002E3AC1 /* SSCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSCore.h; sourceTree = "<group>"; };
+		FFEBDF481A8FCF99002E3AC1 /* SSCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSCore.m; sourceTree = "<group>"; };
+		FFEBDF4D1A8FD9F6002E3AC1 /* SSSwitchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSSwitchViewController.h; sourceTree = "<group>"; };
+		FFEBDF4E1A8FD9F6002E3AC1 /* SSSwitchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSSwitchViewController.m; sourceTree = "<group>"; };
+		FFEBDF501A96DF7A002E3AC1 /* SSLightsForSwitchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSLightsForSwitchViewController.h; sourceTree = "<group>"; };
+		FFEBDF511A96DF7A002E3AC1 /* SSLightsForSwitchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSLightsForSwitchViewController.m; sourceTree = "<group>"; };
+		FFEBDF531A9AA0DA002E3AC1 /* SSLightViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSLightViewController.h; sourceTree = "<group>"; };
+		FFEBDF541A9AA0DA002E3AC1 /* SSLightViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSLightViewController.m; sourceTree = "<group>"; };
+		FFEBDF561A9BC2EE002E3AC1 /* SSCoreTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSCoreTableViewCell.h; sourceTree = "<group>"; };
+		FFEBDF571A9BC2EE002E3AC1 /* SSCoreTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSCoreTableViewCell.m; sourceTree = "<group>"; };
+		FFEBDF591A9E4A57002E3AC1 /* SSSwitchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSSwitchTableViewCell.h; sourceTree = "<group>"; };
+		FFEBDF5A1A9E4A57002E3AC1 /* SSSwitchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSSwitchTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,12 +144,32 @@
 				85C2F73D1A3CD7E400329C14 /* DataHelper.h */,
 				85C2F73E1A3CD7E400329C14 /* DataHelper.m */,
 				85C2F71C1A3CD76100329C14 /* AppDelegate.m */,
-				85C2F71E1A3CD76100329C14 /* ViewController.h */,
-				85C2F71F1A3CD76100329C14 /* ViewController.m */,
+				85C2F71E1A3CD76100329C14 /* SSLoginViewController.h */,
+				85C2F71F1A3CD76100329C14 /* SSLoginViewController.m */,
 				85C2F7211A3CD76100329C14 /* Main.storyboard */,
 				85C2F7241A3CD76100329C14 /* Images.xcassets */,
 				85C2F7261A3CD76100329C14 /* LaunchScreen.xib */,
 				85C2F7171A3CD76100329C14 /* Supporting Files */,
+				FF34DD481A89476A00A7544E /* SSMainViewController.h */,
+				FF34DD491A89476A00A7544E /* SSMainViewController.m */,
+				FF34DD4B1A8949C600A7544E /* SSManager.h */,
+				FF34DD4C1A8949C600A7544E /* SSManager.m */,
+				FFEBDF471A8FCF99002E3AC1 /* SSCore.h */,
+				FFEBDF481A8FCF99002E3AC1 /* SSCore.m */,
+				FFEBDF4D1A8FD9F6002E3AC1 /* SSSwitchViewController.h */,
+				FFEBDF4E1A8FD9F6002E3AC1 /* SSSwitchViewController.m */,
+				FFEBDF501A96DF7A002E3AC1 /* SSLightsForSwitchViewController.h */,
+				FFEBDF511A96DF7A002E3AC1 /* SSLightsForSwitchViewController.m */,
+				FFEBDF531A9AA0DA002E3AC1 /* SSLightViewController.h */,
+				FFEBDF541A9AA0DA002E3AC1 /* SSLightViewController.m */,
+				FFEBDF561A9BC2EE002E3AC1 /* SSCoreTableViewCell.h */,
+				FFEBDF571A9BC2EE002E3AC1 /* SSCoreTableViewCell.m */,
+				FFEBDF591A9E4A57002E3AC1 /* SSSwitchTableViewCell.h */,
+				FFEBDF5A1A9E4A57002E3AC1 /* SSSwitchTableViewCell.m */,
+				FF4F434F1A9F935C00C5F163 /* SSAddDeviceViewController.h */,
+				FF4F43501A9F935C00C5F163 /* SSAddDeviceViewController.m */,
+				FF4F43521AA0AC7600C5F163 /* SSEditDeviceViewController.h */,
+				FF4F43531AA0AC7600C5F163 /* SSEditDeviceViewController.m */,
 			);
 			path = SmartSwitchiOS;
 			sourceTree = "<group>";
@@ -284,14 +334,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				85C2F7591A3CF48300329C14 /* AFURLConnectionOperation.m in Sources */,
+				FFEBDF5B1A9E4A57002E3AC1 /* SSSwitchTableViewCell.m in Sources */,
 				85C2F7561A3CF48300329C14 /* AFImageRequestOperation.m in Sources */,
-				85C2F7201A3CD76100329C14 /* ViewController.m in Sources */,
+				85C2F7201A3CD76100329C14 /* SSLoginViewController.m in Sources */,
+				FFEBDF491A8FCF99002E3AC1 /* SSCore.m in Sources */,
 				85C2F73F1A3CD7E400329C14 /* DataHelper.m in Sources */,
+				FF4F43541AA0AC7600C5F163 /* SSEditDeviceViewController.m in Sources */,
+				FFEBDF551A9AA0DA002E3AC1 /* SSLightViewController.m in Sources */,
 				85C2F75A1A3CF48300329C14 /* AFXMLRequestOperation.m in Sources */,
 				85C2F7531A3CF48300329C14 /* AFAmazonS3Client.m in Sources */,
 				85C2F71D1A3CD76100329C14 /* AppDelegate.m in Sources */,
 				85C2F7571A3CF48300329C14 /* AFJSONRequestOperation.m in Sources */,
 				85C2F71A1A3CD76100329C14 /* main.m in Sources */,
+				FFEBDF521A96DF7A002E3AC1 /* SSLightsForSwitchViewController.m in Sources */,
+				FFEBDF581A9BC2EE002E3AC1 /* SSCoreTableViewCell.m in Sources */,
+				FFEBDF4F1A8FD9F6002E3AC1 /* SSSwitchViewController.m in Sources */,
+				FF34DD4D1A8949C600A7544E /* SSManager.m in Sources */,
+				FF34DD4A1A89476A00A7544E /* SSMainViewController.m in Sources */,
+				FF4F43511A9F935C00C5F163 /* SSAddDeviceViewController.m in Sources */,
 				85C2F7541A3CF48300329C14 /* AFHTTPClient.m in Sources */,
 				85C2F7581A3CF48300329C14 /* AFPropertyListRequestOperation.m in Sources */,
 				85C2F7551A3CF48300329C14 /* AFHTTPRequestOperation.m in Sources */,
@@ -419,6 +479,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = SmartSwitchiOS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -429,6 +490,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = SmartSwitchiOS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

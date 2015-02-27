@@ -1,4 +1,4 @@
-int led = D0;
+/*int led = D0;
 int led2 = D7;
 unsigned int localPort = 8888;
 UDP Udp;
@@ -30,4 +30,4 @@ void loop() {
   digitalWrite(led, LOW);
   digitalWrite(led2, LOW);
   delay(250);
-}
+}*/

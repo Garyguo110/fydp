@@ -1,6 +1,7 @@
 int input1 = D1;
 int power = D7;
 int output1 = D0;
+int switchDriver = D2;
 
 int count = 0;
 int lightState = 0;
@@ -24,7 +25,9 @@ void setup() {
   pinMode(input1, INPUT);
   pinMode(output1, OUTPUT);
   pinMode(power, OUTPUT);
+  pinMode(switchDriver, OUTPUT);
 
+  digitalWrite(switchDriver, HIGH);
 }
 
 void loop() {

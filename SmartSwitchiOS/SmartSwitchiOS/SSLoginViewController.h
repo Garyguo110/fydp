@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "DataHelper.h"
 
-@interface ViewController : UIViewController
+@interface SSLoginViewController : UIViewController
 
+- (IBAction)login:(id)sender;
 
 @end
 

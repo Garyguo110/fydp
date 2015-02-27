@@ -16,6 +16,10 @@
 
 @interface DataHelper : AFHTTPClient
 @property(nonatomic, strong)NSString *authToken;
-- (void) initDatahelper;
+- (void)initDatahelper;
+- (void)login:(void (^)(NSString *))authToken failure:(void (^)(NSString *))failure;
+- (void)setState:(NSString *)state forDevice:(NSString *)deviceName success:(void (^)(NSNumber *))success failure:(void (^)(NSString *))failure;
+- (void)flipLight:(void (^)(NSNumber *))success failure:(void (^)(NSString *))failure;
+- (void)setCores:(void (^)(NSNumber *))success failure:(void (^)(NSString *))failure;
 
 @end
