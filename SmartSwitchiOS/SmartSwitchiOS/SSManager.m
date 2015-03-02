@@ -16,6 +16,7 @@
 @synthesize lights;
 @synthesize mapping;
 @synthesize fakeIds;
+@synthesize unclaimedLights;
 
 + (SSManager *)sharedInstance {
     static SSManager *sharedSSManager = nil;
@@ -47,6 +48,7 @@
         switches = [[NSMutableArray alloc] init];
         lights = [[NSMutableArray alloc] init];
         mapping = [[NSMutableDictionary alloc] init];
+        unclaimedLights = [[NSMutableArray alloc] init];
         fakeIds = [[NSMutableArray alloc] initWithObjects:@"MC35751266MR",
                  @"MC33351266MR",
                  @"MC3DE51266ML",
@@ -69,8 +71,6 @@
                  @"MS39E51266ML",
                  @"MC07551246MR",
                  @"MS3C851236MR", nil];
-        SSCore *light = [[SSCore alloc] initWithName:@"Light1" deviceId:@"55ff74066678505506381367" switch:NO];
-        [lights addObject:light];
     }
     return self;
 }
@@ -96,4 +96,36 @@
         }
     }
 }
+
+- (void)addCore:(SSCore *)core {
+    if (core.isSwitch) {
+        [switches addObject:core];
+    } else {
+        [lights addObject:core];
+        [unclaimedLights addObject:core.deviceId];
+    }
+}
+
+-(void)removeMappingFromSwitch:(NSString *)switchId withIndex:(NSInteger)index {
+    NSString *removedId = [mapping objectForKey:switchId][index];
+    [[mapping objectForKey:switchId] removeObjectAtIndex:index];
+    for (NSString *key in mapping) {
+        if ([[mapping objectForKey:key] containsObject:removedId]) {
+            return;
+        }
+    }
+    [unclaimedLights addObject:removedId];
+}
+
+- (void)addMappingToSwitch:(NSString *)switchId fromLight:(NSString *)lightId {
+    if([mapping objectForKey:switchId] == nil) {
+        [mapping setObject:[[NSMutableArray alloc] init] forKey:switchId];
+    }
+    [[mapping objectForKey:switchId] addObject:lightId];
+    if([unclaimedLights containsObject:lightId]) {
+        [unclaimedLights removeObject:lightId];
+    }
+}
+
+
 @end

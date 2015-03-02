@@ -90,7 +90,7 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="deleteRow:" destination="58b-9x-LG0" eventType="touchUpInside" id="XyP-dw-nP3"/>
+                                                <action selector="deleteRow:" destination="pzl-ax-yIU" eventType="touchUpInside" id="gwc-06-eYr"/>
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AVe-wV-Utf">
@@ -100,15 +100,15 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="editLightRow:" destination="58b-9x-LG0" eventType="touchUpInside" id="ZJ3-4J-oSj"/>
+                                                <action selector="editRow:" destination="pzl-ax-yIU" eventType="touchUpInside" id="Rvb-ri-BHB"/>
                                             </connections>
                                         </button>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="addLightButton" destination="Jq8-fm-Gf8" id="Wpe-QP-1va"/>
-                                    <outlet property="deleteButton" destination="1D8-VM-DEr" id="X6h-fj-rmS"/>
-                                    <outlet property="editButton" destination="AVe-wV-Utf" id="cT8-er-Bvq"/>
+                                    <outlet property="deleteButton" destination="1D8-VM-DEr" id="tm5-fr-ihh"/>
+                                    <outlet property="editButton" destination="AVe-wV-Utf" id="Ui7-kR-giP"/>
                                     <outlet property="nameLabel" destination="bK2-1T-zzO" id="Ulr-Km-kAy"/>
                                 </connections>
                             </tableViewCell>

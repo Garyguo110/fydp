@@ -48,11 +48,7 @@
     NSLog(@"%@",idField.text);
     SSCore *newCore = [[SSCore alloc] initWithName:nameField.text deviceId:[[SSManager sharedInstance].fakeIds objectAtIndex:selectedIndex] switch:isSwitch.isOn];
     [[SSManager sharedInstance].fakeIds removeObjectAtIndex:selectedIndex];
-    if(isSwitch.isOn) {
-        [[SSManager sharedInstance].switches addObject:newCore];
-    } else {
-        [[SSManager sharedInstance].lights addObject:newCore];
-    }
+    [[SSManager sharedInstance] addCore:newCore];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

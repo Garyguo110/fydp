@@ -29,9 +29,6 @@
 
 -(void)login:(id)sender {
     [[SSManager sharedInstance].dataHelper login:^(NSString * authToken) {
-        SSCore *switch1 = [[SSCore alloc] initWithName:@"Switch" deviceId:@"54ff6c066667515128301467" switch:YES];
-        [[SSManager sharedInstance].switches addObject:switch1];
-        NSLog(@"%@", [SSManager sharedInstance].switches);
         [self performSegueWithIdentifier:@"login" sender:sender];
     } failure:^(NSString * failure) {
         NSLog(failure);

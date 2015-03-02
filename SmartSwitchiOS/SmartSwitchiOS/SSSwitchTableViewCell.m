@@ -14,6 +14,7 @@
 @synthesize core;
 @synthesize addLightButton;
 @synthesize lightTableView;
+@synthesize isUnclaimedCell;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -38,6 +39,9 @@
 
 #pragma mark - Table View
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if(isUnclaimedCell) {
+        return [[SSManager sharedInstance].unclaimedLights count];
+    }
     NSArray *cores = [[SSManager sharedInstance].mapping objectForKey:core.deviceId];
     return cores == nil ? 0 : [cores count];
 }
@@ -51,35 +55,48 @@
     if(!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"LightForSwitchCell"];
     }
-    NSArray *pairedCores = [[SSManager sharedInstance].mapping objectForKey:core.deviceId];
-    SSCore *light = [[SSManager sharedInstance] getLightWithId:[pairedCores objectAtIndex:indexPath.row]];
+    SSCore *light;
+    if(isUnclaimedCell) {
+        NSString *lightId = [[SSManager sharedInstance].unclaimedLights objectAtIndex:indexPath.row];
+        light = [[SSManager sharedInstance] getLightWithId:lightId];
+    } else {
+        NSArray *pairedCores = [[SSManager sharedInstance].mapping objectForKey:core.deviceId];
+        light = [[SSManager sharedInstance] getLightWithId:[pairedCores objectAtIndex:indexPath.row]];
+        UIButton *deleteLightButton  = [[UIButton alloc] initWithFrame:CGRectMake(706, 10, 44, 30)];
+        [deleteLightButton setTitle:@"Delete" forState:UIControlStateNormal];
+        [deleteLightButton setFont:[UIFont systemFontOfSize:15]];
+        [deleteLightButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [deleteLightButton addTarget:self action:@selector(deleteLightRow:) forControlEvents:UIControlEventTouchUpInside];
+        
+        [cell addSubview:deleteLightButton];
+    }
     cell.textLabel.text = light.name;
     UIButton *editLightButton = [[UIButton alloc] initWithFrame:CGRectMake(644, 10, 30, 30)];
     [editLightButton setTitle:@"Edit" forState:UIControlStateNormal];
     [editLightButton addTarget:self action:@selector(editLightRow:) forControlEvents:UIControlEventTouchUpInside];
     [editLightButton setFont:[UIFont systemFontOfSize:15]];
     [editLightButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    UIButton *deleteLightButton  = [[UIButton alloc] initWithFrame:CGRectMake(706, 10, 44, 30)];
-    [deleteLightButton setTitle:@"Delete" forState:UIControlStateNormal];
-    [deleteLightButton setFont:[UIFont systemFontOfSize:15]];
-    [deleteLightButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [deleteLightButton addTarget:self action:@selector(deleteRow:) forControlEvents:UIControlEventTouchUpInside];
+
     [cell addSubview:editLightButton];
-    [cell addSubview:deleteLightButton];
     return cell;
 }
 
 - (void)editLightRow:(id)sender {
     UITableViewCell *cell = (UITableViewCell *)[[SSManager sharedInstance] findSuperViewOf:sender WithClass:[UITableViewCell class]];
     NSIndexPath *indexPath = [self.lightTableView indexPathForCell:cell];
-    SSCore *coreToEdit = [[[SSManager sharedInstance].mapping objectForKey:core.deviceId] objectAtIndex:indexPath.row];
+    SSCore *coreToEdit;
+    if (isUnclaimedCell) {
+        coreToEdit = [[SSManager sharedInstance].unclaimedLights objectAtIndex:indexPath.row];
+    } else {
+        coreToEdit = [[[SSManager sharedInstance].mapping objectForKey:core.deviceId] objectAtIndex:indexPath.row];
+    }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"editLightCore" object:nil userInfo:@{@"core": coreToEdit}];
 }
 
-- (void)deleteRow:(id)sender {
+- (void)deleteLightRow:(id)sender {
     UITableViewCell *cell = (UITableViewCell *)[[SSManager sharedInstance] findSuperViewOf:sender WithClass:[UITableViewCell class]];
     NSIndexPath *indexPath = [self.lightTableView indexPathForCell:cell];
-    [[[SSManager sharedInstance].mapping objectForKey:core.deviceId] removeObjectAtIndex:indexPath.row];
+    [[SSManager sharedInstance] removeMappingFromSwitch:self.core.deviceId withIndex:indexPath.row];
     [self.lightTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
 }

@@ -19,6 +19,7 @@
 
 @implementation SSSwitchViewController {
     SSCore *selected;
+    NSIndexPath *indexToDelete;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -36,6 +37,7 @@
     [super viewDidLoad];
     
     self.tableView.allowsMultipleSelectionDuringEditing = NO;
+    self.tableView.allowsSelection = NO;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView:) name:@"reloadTableView" object:nil];
     
@@ -74,11 +76,11 @@
 }
 
 - (void)deleteRow:(id)sender {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Are you sure you want to delete?" message:@"Deleting this row will also delete all associated mapping information" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
     SSSwitchTableViewCell * cell =  (SSSwitchTableViewCell *)[[SSManager sharedInstance] findSuperViewOf:sender WithClass:[SSSwitchTableViewCell class]];
     [[SSManager sharedInstance].mapping removeObjectForKey:cell.core.deviceId];
-    NSIndexPath *ip = [self.tableView indexPathForCell:cell];
-    [[SSManager sharedInstance].switches removeObjectAtIndex:ip.row];
-    [self.tableView deleteRowsAtIndexPaths:@[ip] withRowAnimation:UITableViewRowAnimationAutomatic];
+    indexToDelete = [self.tableView indexPathForCell:cell];
+    [alert show];
 }
 
 - (void)reloadTableView:(id)sender {
@@ -86,7 +88,8 @@
 }
 
 - (void)editLightCore:(NSNotification *)notification {
-    selected = (SSCore *)[[notification userInfo] objectForKey:@"core"];
+    NSString *deviceId =[[notification userInfo] objectForKey:@"core"];
+    selected = [[SSManager sharedInstance] getLightWithId:deviceId];
     [self performSegueWithIdentifier:@"editDevice" sender:notification];
 }
 
@@ -98,12 +101,18 @@
 
 - (void)didSelectLightFrom:(SSLightViewController *)controller withCore:(SSCore *)core {
     SSCore *switchCore = selected;
-    if([[SSManager sharedInstance].mapping objectForKey:switchCore.deviceId] == nil) {
-        [[SSManager sharedInstance].mapping setObject:[[NSMutableArray alloc] init] forKey:switchCore.deviceId];
-    }
-    [[[SSManager sharedInstance].mapping objectForKey:switchCore.deviceId] addObject:core.deviceId];
+    [[SSManager sharedInstance] addMappingToSwitch:switchCore.deviceId fromLight:core.deviceId];
     [self dismissViewControllerAnimated:YES completion:nil];
     [self.tableView reloadData];
+}
+
+#pragma mark - Alert View Delegate 
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if(buttonIndex == 1) {
+        [[SSManager sharedInstance].switches removeObjectAtIndex:indexToDelete.row];
+        [self.tableView deleteRowsAtIndexPaths:@[indexToDelete] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
 }
 
 #pragma mark - Table view data source
@@ -119,17 +128,35 @@
 {
 #warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return [[SSManager sharedInstance].switches count];
+    return [[SSManager sharedInstance].switches count] + ([[SSManager sharedInstance] unclaimedLights].count > 0 ? 1 : 0);
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SSSwitchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SwitchCell" forIndexPath:indexPath];
+    cell.isUnclaimedCell = NO;
+    cell.lightTableView.allowsSelection = NO;
+    cell.lightTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    if(indexPath.row == [[SSManager sharedInstance].switches count]) {
+        cell.isUnclaimedCell = YES;
+        [cell.nameLabel setText:@"Unclaimed Lights"];
+        [cell.nameLabel setTextColor:[UIColor grayColor]];
+        [cell.addLightButton setHidden:YES];
+        [cell.editButton setHidden:YES];
+        [cell.deleteButton setHidden:YES];
+        NSInteger rowCount = [[SSManager sharedInstance].unclaimedLights count];
+        cell.lightTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 44, 768, 44*rowCount)];
+        cell.lightTableView.delegate = cell;
+        cell.lightTableView.dataSource = cell;
+        cell.lightTableView.allowsMultipleSelectionDuringEditing = NO;
+        [cell addSubview:cell.lightTableView];
+        [cell.lightTableView reloadData];
+    } else {
     cell.core = [[SSManager sharedInstance].switches objectAtIndex:[indexPath row]];
     [cell.addLightButton addTarget:self action:@selector(addLight:) forControlEvents:UIControlEventTouchUpInside];
-    [cell.editButton addTarget:self action:@selector(editRow:) forControlEvents:UIControlEventTouchUpInside];
-    [cell.deleteButton addTarget:self action:@selector(deleteRow:) forControlEvents:UIControlEventTouchUpInside];
+    //[cell.editButton addTarget:self action:@selector(editRow:) forControlEvents:UIControlEventTouchUpInside];
+    //[cell.deleteButton addTarget:self action:@selector(deleteRow:) forControlEvents:UIControlEventTouchUpInside];
     [cell.nameLabel setText:cell.core.name];
     NSArray *pairedCores = [[SSManager sharedInstance].mapping objectForKey:cell.core.deviceId];
     NSInteger rowCount = pairedCores == nil ? 0 : pairedCores.count;
@@ -153,12 +180,15 @@
     }
     */
     [cell.lightTableView reloadData];
-    
+    }
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat baseHeight = 44.0f;
+    if(indexPath.row == [[SSManager sharedInstance].switches count]) {
+        return baseHeight + [[SSManager sharedInstance].unclaimedLights count] * baseHeight;
+    } else {
     SSCore *switchCore = [[SSManager sharedInstance].switches objectAtIndex:indexPath.row];
     
     if ([[SSManager sharedInstance].mapping objectForKey:switchCore.deviceId] == nil) {
@@ -166,6 +196,7 @@
     }
     
     return baseHeight + [[[SSManager sharedInstance].mapping objectForKey:switchCore.deviceId] count] * baseHeight;
+    }
     
 }
 

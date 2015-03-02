@@ -18,10 +18,14 @@
 @property (nonatomic, strong) NSMutableArray *lights;
 @property (nonatomic, strong) NSMutableDictionary *mapping;
 @property (nonatomic, strong) NSMutableArray *fakeIds;
+@property (nonatomic, strong) NSMutableArray *unclaimedLights;
 
 + (SSManager *) sharedInstance;
 - (UIView *)findSuperViewOf:(UIView *)view WithClass:(Class)superViewClass;
 - (SSCore *) getLightWithId:(NSString *)idString;
 - (void) changeNameForCore:(SSCore *)core to:(NSString *)newName;
+- (void) addCore:(SSCore *)core;
+- (void) removeMappingFromSwitch:(NSString *)switchId withIndex:(NSInteger)index;
+- (void) addMappingToSwitch:(NSString *)switchId fromLight:(NSString *)lightId;
 
 @end

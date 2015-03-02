@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SSLightViewController.h"
 
-@interface SSSwitchViewController : UITableViewController <SSLightViewControllerDelegate>
+@interface SSSwitchViewController : UITableViewController <SSLightViewControllerDelegate, UIAlertViewDelegate>
 
 - (IBAction)addLight:(id)sender;
 - (IBAction)addDevice:(id)sender;

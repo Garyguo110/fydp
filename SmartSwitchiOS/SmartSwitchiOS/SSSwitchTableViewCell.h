@@ -14,8 +14,13 @@
 @property (nonatomic, weak) SSCore *core;
 @property (nonatomic, weak) IBOutlet UIButton *addLightButton;
 @property (nonatomic, weak) IBOutlet UILabel *nameLabel;
-@property (nonatomic, strong) IBOutlet UITableView *lightTableView;
 @property (nonatomic, weak) IBOutlet UIButton *editButton;
 @property (nonatomic, weak) IBOutlet UIButton *deleteButton;
+@property (nonatomic, strong) IBOutlet UITableView *lightTableView;
+@property (nonatomic, assign) BOOL isUnclaimedCell;
+
+
+- (IBAction)editLightRow:(id)sender;
+- (IBAction)deleteLightRow:(id)sender;
 
 @end
