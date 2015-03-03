@@ -15,7 +15,7 @@
 @synthesize switches;
 @synthesize lights;
 @synthesize mapping;
-@synthesize fakeIds;
+@synthesize unclaimedIds;
 @synthesize unclaimedLights;
 
 + (SSManager *)sharedInstance {
@@ -45,32 +45,12 @@
 - (id)init {
     if(self == [super init]) {
         dataHelper = [[DataHelper allocWithZone:nil] initWithBaseURL:[NSURL URLWithString:@"https://api.spark.io"]];
+        dataHelper.DEBUG_MODE = YES;
         switches = [[NSMutableArray alloc] init];
         lights = [[NSMutableArray alloc] init];
         mapping = [[NSMutableDictionary alloc] init];
         unclaimedLights = [[NSMutableArray alloc] init];
-        fakeIds = [[NSMutableArray alloc] initWithObjects:@"MC35751266MR",
-                 @"MC33351266MR",
-                 @"MC3DE51266ML",
-                 @"MC46751266ML",
-                 @"MC08E51276MR",
-                 @"MC11651276MR",
-                 @"MC1EA51276MR",
-                 @"MC11A51276MR",
-                 @"MC3C151276ML",
-                 @"MC38A51276MR",
-                 @"MC44251276MR",
-                 @"MS1B851236MR",
-                 @"MN55B51236ML",
-                 @"MN55A51236MR",
-                 @"MC08451236MR",
-                 @"MC4B351236ML",
-                 @"MN59A51236MR",
-                 @"MS10851236MR",
-                 @"MN12551266MR",
-                 @"MS39E51266ML",
-                 @"MC07551246MR",
-                 @"MS3C851236MR", nil];
+        unclaimedIds = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -125,6 +105,10 @@
     if([unclaimedLights containsObject:lightId]) {
         [unclaimedLights removeObject:lightId];
     }
+}
+- (void)setUnclaimedIds:(NSArray *)ids {
+    NSArray *filterSwitches = [ids filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"NOT(SELF IN %@)", [switches valueForKeyPath:@"deviceId"]]];
+    unclaimedIds = [filterSwitches filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"NOT(SELF IN %@)", [lights valueForKeyPath:@"deviceId"]]];
 }
 
 

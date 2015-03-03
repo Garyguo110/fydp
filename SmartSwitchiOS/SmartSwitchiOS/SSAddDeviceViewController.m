@@ -27,6 +27,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+
     }
     return self;
 }
@@ -36,7 +37,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 }
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -46,10 +46,15 @@
 - (void)addDevice:(id)sender {
     NSLog(@"%@",idField);
     NSLog(@"%@",idField.text);
-    SSCore *newCore = [[SSCore alloc] initWithName:nameField.text deviceId:[[SSManager sharedInstance].fakeIds objectAtIndex:selectedIndex] switch:isSwitch.isOn];
-    [[SSManager sharedInstance].fakeIds removeObjectAtIndex:selectedIndex];
+    SSCore *newCore = [[SSCore alloc] initWithName:nameField.text deviceId:[[SSManager sharedInstance].unclaimedIds objectAtIndex:selectedIndex] switch:isSwitch.isOn];
     [[SSManager sharedInstance] addCore:newCore];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    NSString *state = isSwitch.isOn ? @"SWITCH" : @"LIGHT";
+    [[SSManager sharedInstance].dataHelper setState:state forDevice:newCore.deviceId success:^(NSNumber *status) {
+        NSLog(@"Status %@ when setting state for %@", status, newCore.name);
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } failure:^(NSString *error) {
+        NSLog(error);
+    }];
 }
 
 - (void)cancelAddDevice:(id)sender {
@@ -59,7 +64,7 @@
 #pragma  mark - Table View
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [[SSManager sharedInstance].fakeIds count];
+    return [[SSManager sharedInstance].unclaimedIds count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -67,7 +72,7 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"deviceCell"];
     }
-    cell.textLabel.text = [[SSManager sharedInstance].fakeIds objectAtIndex:indexPath.row];
+    cell.textLabel.text = [[SSManager sharedInstance].unclaimedIds objectAtIndex:indexPath.row];
     return cell;
 }
 

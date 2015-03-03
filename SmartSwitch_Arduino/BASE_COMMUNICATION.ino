@@ -64,20 +64,33 @@ int setCores(String command)
 int flipLight(String command)
 {
   String st = state;
-  if( st == "LIGHT") {
-    if( lightState == 0 ){
-      digitalWrite(power, HIGH);
-      digitalWrite(output1, HIGH);
-      lightState = 1;
+  if(command == "TOGGLE") {
+    if( st == "LIGHT") {
+      if( lightState == 0 ){
+        digitalWrite(power, HIGH);
+        digitalWrite(output1, HIGH);
+        lightState = 1;
+      }
+      else {
+        digitalWrite(power, LOW);
+        digitalWrite(output1, LOW);
+        lightState = 0;
+      }
+      return 1;
     }
-    else {
+    else return -1;
+  } else if (command == "OFF") {
+    if(lightState == 1) {
       digitalWrite(power, LOW);
       digitalWrite(output1, LOW);
       lightState = 0;
     }
-    return 1;
-  }
-  else return -1;
+  } else if (command == "ON") {
+    if(lightState ==  0) {
+      digitalWrite(power, HIGH);
+      digitalWrite(power, LOW);
+    }
+  } else return -1;
 }
 
 void switchHandler(const char *event, const char *data) {

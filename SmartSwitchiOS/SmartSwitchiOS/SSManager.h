@@ -17,7 +17,7 @@
 @property (nonatomic, strong) NSMutableArray *switches;
 @property (nonatomic, strong) NSMutableArray *lights;
 @property (nonatomic, strong) NSMutableDictionary *mapping;
-@property (nonatomic, strong) NSMutableArray *fakeIds;
+@property (nonatomic, strong) NSArray *unclaimedIds;
 @property (nonatomic, strong) NSMutableArray *unclaimedLights;
 
 + (SSManager *) sharedInstance;
@@ -27,5 +27,6 @@
 - (void) addCore:(SSCore *)core;
 - (void) removeMappingFromSwitch:(NSString *)switchId withIndex:(NSInteger)index;
 - (void) addMappingToSwitch:(NSString *)switchId fromLight:(NSString *)lightId;
+- (void) setUnclaimedIds:(NSArray *)ids;
 
 @end

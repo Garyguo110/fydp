@@ -16,9 +16,11 @@
 
 @end
 
-@implementation DataHelper
+@implementation DataHelper {
+}
 
 @synthesize authToken;
+@synthesize DEBUG_MODE;
 
 //NSString *sparkAuthTokenURL = @"https://api.spark.io/oauth/token";
 /*
@@ -41,45 +43,56 @@ static DataHelper *sharedObject = nil;
 
 - (void)login:(void (^)(NSString *))success failure:(void (^)(NSString *))failure
 {
-    NSDictionary *params = @{
-                             @"grant_type": @"password",
-                             @"username": @"jacob.simon01@gmail.com",
-                             @"password": @"rasberryboat",
-                             };
-    
-    [self setAuthorizationHeaderWithUsername:SPK_CLIENT_USERNAME password:SPK_CLIENT_PASSWORD];
-    [self callMethod:@"POST" path:@"oauth/token" parameters:params notifyAuthenticationFailure:NO success:^(NSInteger statusCode, id JSON) {
-        [self clearAuthorizationHeader];
-        NSError* error;
-        NSDictionary* json = [NSJSONSerialization JSONObjectWithData:JSON
-                                                             options:kNilOptions
-                                                               error:&error];
-        self.access_token = [json objectForKey:@"access_token"];
-        NSLog(@"Saved Access Token");
-        success([json objectForKey:@"access_token"]);
-    } failure:^(NSInteger statusCode, NSDictionary *dict) {
-        failure([dict[@"errors"] componentsJoinedByString:@" "]);
-    }];
+    if(DEBUG_MODE) {
+        success(@"test");
+    } else {
+        NSDictionary *params = @{
+                                 @"grant_type": @"password",
+                                 @"username": @"jacob.simon01@gmail.com",
+                                 @"password": @"rasberryboat",
+                                 };
+        
+        [self setAuthorizationHeaderWithUsername:SPK_CLIENT_USERNAME password:SPK_CLIENT_PASSWORD];
+        [self callMethod:@"POST" path:@"oauth/token" parameters:params notifyAuthenticationFailure:NO success:^(NSInteger statusCode, id JSON) {
+            [self clearAuthorizationHeader];
+            NSError* error;
+            NSDictionary* json = [NSJSONSerialization JSONObjectWithData:JSON
+                                                                 options:kNilOptions
+                                                                   error:&error];
+            self.access_token = [json objectForKey:@"access_token"];
+            NSLog(@"Saved Access Token");
+            success([json objectForKey:@"access_token"]);
+        } failure:^(NSInteger statusCode, NSDictionary *dict) {
+            failure([dict[@"errors"] componentsJoinedByString:@" "]);
+        }];
+    }
 }
 
 - (void)setState:(NSString *)type forDevice:(NSString *)deviceName success:(void (^)(NSNumber *))success failure:(void (^)(NSString *))failure {
-    NSDictionary *params = @{
-                             @"access_token": self.access_token,
-                             @"params": type
-                             };
-    [self callMethod:@"POST" path:[NSString stringWithFormat:@"/v1/devices/%@/setState", deviceName] parameters:params notifyAuthenticationFailure:NO success:^
-     (NSInteger statusCode, id JSON) {
-         NSError *error;
-         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:JSON
-                                                              options:kNilOptions
-                                                                error:&error];
-         success([json valueForKey:@"return_value"]);
-     } failure:^(NSInteger statusCode, NSDictionary *dict) {
-         failure([dict[@"errors"] componentsJoinedByString:@" "]);
-     }];
+    if(DEBUG_MODE) {
+        success([NSNumber numberWithInt:1]);
+    } else {
+        NSDictionary *params = @{
+                                 @"access_token": self.access_token,
+                                 @"params": type
+                                 };
+        [self callMethod:@"POST" path:[NSString stringWithFormat:@"/v1/devices/%@/setState", deviceName] parameters:params notifyAuthenticationFailure:NO success:^
+         (NSInteger statusCode, id JSON) {
+             NSError *error;
+             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:JSON
+                                                                  options:kNilOptions
+                                                                    error:&error];
+             success([json valueForKey:@"return_value"]);
+         } failure:^(NSInteger statusCode, NSDictionary *dict) {
+             failure([dict[@"errors"] componentsJoinedByString:@" "]);
+         }];
+    }
 }
 
 - (void)flipLight:(void (^)(NSNumber *))success failure:(void (^)(NSString *))failure {
+    if(DEBUG_MODE) {
+        success([NSNumber numberWithInt:1]);
+    } else {
     NSDictionary *params = @{
                              @"access_token": self.access_token
                              };
@@ -94,24 +107,92 @@ static DataHelper *sharedObject = nil;
      } failure:^(NSInteger statusCode, NSDictionary *dict) {
          failure([dict[@"errors"] componentsJoinedByString:@" "]);
      }];
+    }
 }
 
 - (void)setCores:(void (^)(NSNumber *))success failure:(void (^)(NSString *))failure {
-    NSDictionary *params = @{
-                             @"access_token": self.access_token,
-                             @"params": @"55ff74066678505506381367"
-                             };
-    
-    [self callMethod:@"POST" path:@"v1/devices/54ff6c066667515128301467/setCores" parameters:params notifyAuthenticationFailure:NO success:^
-     (NSInteger statusCode, id JSON) {
-         NSError *error;
-         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:JSON
-                                                              options:kNilOptions
-                                                                error:&error];
-         success([json objectForKey:@"return_value"]);
-     }failure:^(NSInteger statusCode, NSDictionary *dict) {
-         failure([dict[@"errors"] componentsJoinedByString:@" "]);
-     }];
+    if(DEBUG_MODE) {
+        success([NSNumber numberWithInt:1]);
+    } else {
+        NSDictionary *params = @{
+                                 @"access_token": self.access_token,
+                                 @"params": @"55ff74066678505506381367"
+                                 };
+        
+        [self callMethod:@"POST" path:@"v1/devices/54ff6c066667515128301467/setCores" parameters:params notifyAuthenticationFailure:NO success:^
+         (NSInteger statusCode, id JSON) {
+             NSError *error;
+             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:JSON
+                                                                  options:kNilOptions
+                                                                    error:&error];
+             success([json objectForKey:@"return_value"]);
+         }failure:^(NSInteger statusCode, NSDictionary *dict) {
+             failure([dict[@"errors"] componentsJoinedByString:@" "]);
+         }];
+    }
+}
+
+- (void)setLight:(NSString *)lightId forSwitch:(NSString *)switchId success:(void (^)(NSNumber *))success failure:(void (^)(NSString *))failure {
+    if(DEBUG_MODE) {
+        success([NSNumber numberWithInt:1]);
+    } else {
+        NSDictionary *params = @{
+                                 @"access_token": self.access_token,
+                                 @"params": lightId
+                                 };
+        
+        [self callMethod:@"POST" path:[NSString stringWithFormat:@"v1/devices/%@/setCores", switchId] parameters:params notifyAuthenticationFailure:NO success:^
+         (NSInteger statusCode, id JSON) {
+             NSError *error;
+             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:JSON
+                                                                  options:kNilOptions
+                                                                    error:&error];
+             success([json objectForKey:@"return_value"]);
+         }failure:^(NSInteger statusCode, NSDictionary *dict) {
+             failure([dict[@"errors"] componentsJoinedByString:@" "]);
+         }];
+    }
+}
+
+- (void)getDevices:(void (^)(NSArray *))success failure:(void (^)(NSString *))failure {
+    if(DEBUG_MODE) {
+        success([NSArray arrayWithObjects:@"MC35751266MR",
+                 @"MC33351266MR",
+                 @"MC3DE51266ML",
+                 @"MC46751266ML",
+                 @"MC08E51276MR",
+                 @"MC11651276MR",
+                 @"MC1EA51276MR",
+                 @"MC11A51276MR",
+                 @"MC3C151276ML",
+                 @"MC38A51276MR",
+                 @"MC44251276MR",
+                 @"MS1B851236MR",
+                 @"MN55B51236ML",
+                 @"MN55A51236MR",
+                 @"MC08451236MR",
+                 @"MC4B351236ML",
+                 @"MN59A51236MR",
+                 @"MS10851236MR",
+                 @"MN12551266MR",
+                 @"MS39E51266ML",
+                 @"MC07551246MR",
+                 @"MS3C851236MR", nil]);
+    } else {
+        NSDictionary *params = @{
+                                 @"access_token": self.access_token
+                                 };
+        [self callMethod:@"GET" path:@"v1/devices" parameters:params notifyAuthenticationFailure:NO success:^
+         (NSInteger statusCode, id JSON) {
+             NSError *error;
+             NSArray *json = [NSJSONSerialization JSONObjectWithData:JSON options:kNilOptions error:&error];
+             NSMutableArray *ids = [json valueForKey:@"id"];
+             NSLog(@"%@", ids);
+             success(ids);
+         }failure:^(NSInteger statusCode, NSDictionary *dict) {
+             failure([dict[@"errors"] componentsJoinedByString:@" "]);
+         }];
+    }
 }
 
 - (void)callMethod:(NSString *)method path:(NSString *)path parameters:(NSDictionary *)parameters notifyAuthenticationFailure:(BOOL)notifyAuthenticationFailure success:(void (^)(NSInteger, id))success failure:(void (^)(NSInteger, id))failure

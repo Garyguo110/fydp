@@ -15,11 +15,16 @@
 #define SPK_CLIENT_PASSWORD @"kuybsvbeu67ibf4cb7o8a3rn2och8nm9fofjnlf987h87bsh43NWJ"
 
 @interface DataHelper : AFHTTPClient
+
 @property(nonatomic, strong)NSString *authToken;
+@property(nonatomic, assign) BOOL DEBUG_MODE;
+
 - (void)initDatahelper;
 - (void)login:(void (^)(NSString *))authToken failure:(void (^)(NSString *))failure;
 - (void)setState:(NSString *)state forDevice:(NSString *)deviceName success:(void (^)(NSNumber *))success failure:(void (^)(NSString *))failure;
 - (void)flipLight:(void (^)(NSNumber *))success failure:(void (^)(NSString *))failure;
 - (void)setCores:(void (^)(NSNumber *))success failure:(void (^)(NSString *))failure;
+- (void) setLight:(NSString *)lightId forSwitch:(NSString *)switchId success:(void (^)(NSNumber *))success failure:(void (^)(NSString *))failure;
+- (void)getDevices:(void (^)(NSArray *))success failure:(void (^)(NSString *))failure;
 
 @end

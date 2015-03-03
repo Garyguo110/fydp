@@ -12,6 +12,7 @@
 #import "SSSwitchTableViewCell.h"
 #import "SSLightsForSwitchViewController.h"
 #import "SSEditDeviceViewController.h"
+#import "SSAddDeviceViewController.h"
 
 @interface SSSwitchViewController ()
 
@@ -67,7 +68,12 @@
 }
 
 - (void)addDevice:(id)sender {
-    [self performSegueWithIdentifier:@"addDevice" sender:sender];
+    [[SSManager sharedInstance].dataHelper getDevices:^(NSArray *ids) {
+        [[SSManager sharedInstance] setUnclaimedIds:ids];
+        [self performSegueWithIdentifier:@"addDevice" sender:sender];
+    } failure:^(NSString *error) {
+        NSLog(error);
+    }];
 }
 
 - (void)editRow:(id)sender {
@@ -101,9 +107,14 @@
 
 - (void)didSelectLightFrom:(SSLightViewController *)controller withCore:(SSCore *)core {
     SSCore *switchCore = selected;
-    [[SSManager sharedInstance] addMappingToSwitch:switchCore.deviceId fromLight:core.deviceId];
-    [self dismissViewControllerAnimated:YES completion:nil];
-    [self.tableView reloadData];
+    [[SSManager sharedInstance].dataHelper setLight:core.deviceId forSwitch:switchCore.deviceId success:^(NSNumber *statusCode) {
+        NSLog(@"Recieved status code of %@ when mapping %@ to %@", statusCode, core.name, switchCore.name);
+        [[SSManager sharedInstance] addMappingToSwitch:switchCore.deviceId fromLight:core.deviceId];
+        [self dismissViewControllerAnimated:YES completion:nil];
+        [self.tableView reloadData];
+    } failure:^(NSString *error) {
+        NSLog(error);
+    }];
 }
 
 #pragma mark - Alert View Delegate 
@@ -150,22 +161,24 @@
         cell.lightTableView.delegate = cell;
         cell.lightTableView.dataSource = cell;
         cell.lightTableView.allowsMultipleSelectionDuringEditing = NO;
+        cell.lightTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [cell addSubview:cell.lightTableView];
         [cell.lightTableView reloadData];
     } else {
-    cell.core = [[SSManager sharedInstance].switches objectAtIndex:[indexPath row]];
-    [cell.addLightButton addTarget:self action:@selector(addLight:) forControlEvents:UIControlEventTouchUpInside];
-    //[cell.editButton addTarget:self action:@selector(editRow:) forControlEvents:UIControlEventTouchUpInside];
-    //[cell.deleteButton addTarget:self action:@selector(deleteRow:) forControlEvents:UIControlEventTouchUpInside];
-    [cell.nameLabel setText:cell.core.name];
-    NSArray *pairedCores = [[SSManager sharedInstance].mapping objectForKey:cell.core.deviceId];
-    NSInteger rowCount = pairedCores == nil ? 0 : pairedCores.count;
-    cell.lightTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 44, 768, 44*rowCount)];
-    cell.lightTableView.delegate = cell;
-    cell.lightTableView.dataSource = cell;
-    cell.lightTableView.allowsMultipleSelectionDuringEditing = NO;
-    [cell addSubview:cell.lightTableView];
-
+        cell.core = [[SSManager sharedInstance].switches objectAtIndex:[indexPath row]];
+        [cell.addLightButton addTarget:self action:@selector(addLight:) forControlEvents:UIControlEventTouchUpInside];
+        //[cell.editButton addTarget:self action:@selector(editRow:) forControlEvents:UIControlEventTouchUpInside];
+        //[cell.deleteButton addTarget:self action:@selector(deleteRow:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.nameLabel setText:cell.core.name];
+        NSArray *pairedCores = [[SSManager sharedInstance].mapping objectForKey:cell.core.deviceId];
+        NSInteger rowCount = pairedCores == nil ? 0 : pairedCores.count;
+        cell.lightTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 44, 768, 44*rowCount)];
+        cell.lightTableView.delegate = cell;
+        cell.lightTableView.dataSource = cell;
+        cell.lightTableView.allowsMultipleSelectionDuringEditing = NO;
+        cell.lightTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        [cell addSubview:cell.lightTableView];
+        
     
     //int i = 1;
     /*
@@ -273,6 +286,10 @@
     if([segue.identifier isEqualToString:@"editDevice"]) {
         SSEditDeviceViewController *edvc = segue.destinationViewController;
         edvc.core = selected;
+    }if([segue.identifier isEqualToString:@"addDevice"]) {
+        SSAddDeviceViewController *advc = segue.destinationViewController;
+        advc.modalPresentationStyle = UIModalPresentationCurrentContext;
+        self.modalPresentationStyle = UIModalPresentationCurrentContext;
     }
 }
 
