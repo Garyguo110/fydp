@@ -1,19 +1,23 @@
 //
-//  EditDeviceViewController.m
+//  SSAddGroupViewController.m
 //  SmartSwitchiOS
 //
-//  Created by Jacob Simon on 2/27/15.
+//  Created by Jacob Simon on 3/4/15.
 //  Copyright (c) 2015 Guo. All rights reserved.
 //
 
-#import "SSEditDeviceViewController.h"
+#import "SSAddGroupViewController.h"
+#import "SSGroup.h"
 #import "SSManager.h"
 
-@interface SSEditDeviceViewController ()
+@interface SSAddGroupViewController ()
 
 @end
 
-@implementation SSEditDeviceViewController
+@implementation SSAddGroupViewController
+
+@synthesize nameField;
+@synthesize group;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -28,6 +32,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    if(group != nil) {
+        [self.nameField setText:group.name];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -36,22 +43,24 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)saveEdit:(id)sender {
-    if ([self.nameField.text isEqualToString:@""]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Insufficient Data" message:@"A name must be provided for the device" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+- (void)saveGroup:(id)sender {
+    NSString *name = [self.nameField text];
+    if([name isEqualToString:@""]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Incomplete Information" message:@"Please provide a name for the group" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alert show];
         return;
     }
-    [self.core setName:self.nameField.text];
+    if (group != nil) {
+        group.name = name;
+    } else {
+        SSGroup *group = [[SSGroup alloc] initWithName:name];
+        [[SSManager sharedInstance].groups addObject:group];
+    }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)cancelEdit:(id)sender {
+- (void)cancelGroup:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    self.nameField.text = self.core.name;
 }
 
 /*

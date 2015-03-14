@@ -24,7 +24,7 @@
 - (void)setState:(NSString *)state forDevice:(NSString *)deviceName success:(void (^)(NSNumber *))success failure:(void (^)(NSString *))failure;
 - (void)flipLight:(void (^)(NSNumber *))success failure:(void (^)(NSString *))failure;
 - (void)setCores:(void (^)(NSNumber *))success failure:(void (^)(NSString *))failure;
-- (void) setLight:(NSString *)lightId forSwitch:(NSString *)switchId success:(void (^)(NSNumber *))success failure:(void (^)(NSString *))failure;
+- (void) setCore:(NSString *)coreId forGroup:(NSString *)groupId success:(void (^)(NSNumber *))success failure:(void (^)(NSString *))failure;
 - (void)getDevices:(void (^)(NSArray *))success failure:(void (^)(NSString *))failure;
 
 @end

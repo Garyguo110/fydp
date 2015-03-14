@@ -19,7 +19,6 @@
 @interface SSLightViewController : UITableViewController
 
 @property (nonatomic, weak) id <SSLightViewControllerDelegate> delegate;
-@property (nonatomic, strong) NSArray *idsToExclude;
 
 - (IBAction)cancel:(id)sender;
 - (IBAction)done:(id)sender;

@@ -10,6 +10,8 @@
 	<string>SmartSwitchiOS</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
+		<key>6381E64C16C91F73A8AF9B36C9F457A2979E1388</key>
+		<string>https://github.com/Garyguo110/fydp.git</string>
 		<key>D3DF6165B29093CB5B7CABF7C7EFD8C3AA763F7D</key>
 		<string>bitbucket.org:hdujali/bluemed-heroku-webapp.git</string>
 	</dict>
@@ -17,17 +19,27 @@
 	<string>SmartSwitchiOS/SmartSwitchiOS.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>D3DF6165B29093CB5B7CABF7C7EFD8C3AA763F7D</key>
+		<key>6381E64C16C91F73A8AF9B36C9F457A2979E1388</key>
 		<string>../../..</string>
+		<key>D3DF6165B29093CB5B7CABF7C7EFD8C3AA763F7D</key>
+		<string>../../../../workspace</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>bitbucket.org:hdujali/bluemed-heroku-webapp.git</string>
+	<string>https://github.com/Garyguo110/fydp.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>D3DF6165B29093CB5B7CABF7C7EFD8C3AA763F7D</string>
+	<string>6381E64C16C91F73A8AF9B36C9F457A2979E1388</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>6381E64C16C91F73A8AF9B36C9F457A2979E1388</string>
+			<key>IDESourceControlWCCName</key>
+			<string>fydp</string>
+		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>

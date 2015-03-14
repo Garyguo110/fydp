@@ -11,8 +11,11 @@
 
 @interface SSSwitchViewController : UITableViewController <SSLightViewControllerDelegate, UIAlertViewDelegate>
 
+@property (nonatomic, strong) UIView *spinnerView;
+
 - (IBAction)addLight:(id)sender;
 - (IBAction)addDevice:(id)sender;
+- (IBAction)addGroup:(id)sender;
 - (IBAction)deleteRow:(id)sender;
 - (IBAction)editRow:(id)sender;
 - (IBAction)reloadTableView:(id)sender;

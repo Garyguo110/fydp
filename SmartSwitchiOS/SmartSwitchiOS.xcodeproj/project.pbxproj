@@ -28,9 +28,9 @@
 		FF4F43511A9F935C00C5F163 /* SSAddDeviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF4F43501A9F935C00C5F163 /* SSAddDeviceViewController.m */; };
 		FF4F43541AA0AC7600C5F163 /* SSEditDeviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF4F43531AA0AC7600C5F163 /* SSEditDeviceViewController.m */; };
 		FFC5AC391AA6211B009FA444 /* SSGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = FFC5AC381AA6211B009FA444 /* SSGroup.m */; };
+		FFC5AC3C1AA786E4009FA444 /* SSAddGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFC5AC3B1AA786E4009FA444 /* SSAddGroupViewController.m */; };
 		FFEBDF491A8FCF99002E3AC1 /* SSCore.m in Sources */ = {isa = PBXBuildFile; fileRef = FFEBDF481A8FCF99002E3AC1 /* SSCore.m */; };
 		FFEBDF4F1A8FD9F6002E3AC1 /* SSSwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFEBDF4E1A8FD9F6002E3AC1 /* SSSwitchViewController.m */; };
-		FFEBDF521A96DF7A002E3AC1 /* SSLightsForSwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFEBDF511A96DF7A002E3AC1 /* SSLightsForSwitchViewController.m */; };
 		FFEBDF551A9AA0DA002E3AC1 /* SSLightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFEBDF541A9AA0DA002E3AC1 /* SSLightViewController.m */; };
 		FFEBDF581A9BC2EE002E3AC1 /* SSCoreTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FFEBDF571A9BC2EE002E3AC1 /* SSCoreTableViewCell.m */; };
 		FFEBDF5B1A9E4A57002E3AC1 /* SSSwitchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FFEBDF5A1A9E4A57002E3AC1 /* SSSwitchTableViewCell.m */; };
@@ -89,12 +89,12 @@
 		FF4F43531AA0AC7600C5F163 /* SSEditDeviceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSEditDeviceViewController.m; sourceTree = "<group>"; };
 		FFC5AC371AA6211B009FA444 /* SSGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSGroup.h; sourceTree = "<group>"; };
 		FFC5AC381AA6211B009FA444 /* SSGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSGroup.m; sourceTree = "<group>"; };
+		FFC5AC3A1AA786E4009FA444 /* SSAddGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSAddGroupViewController.h; sourceTree = "<group>"; };
+		FFC5AC3B1AA786E4009FA444 /* SSAddGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSAddGroupViewController.m; sourceTree = "<group>"; };
 		FFEBDF471A8FCF99002E3AC1 /* SSCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSCore.h; sourceTree = "<group>"; };
 		FFEBDF481A8FCF99002E3AC1 /* SSCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSCore.m; sourceTree = "<group>"; };
 		FFEBDF4D1A8FD9F6002E3AC1 /* SSSwitchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSSwitchViewController.h; sourceTree = "<group>"; };
 		FFEBDF4E1A8FD9F6002E3AC1 /* SSSwitchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSSwitchViewController.m; sourceTree = "<group>"; };
-		FFEBDF501A96DF7A002E3AC1 /* SSLightsForSwitchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSLightsForSwitchViewController.h; sourceTree = "<group>"; };
-		FFEBDF511A96DF7A002E3AC1 /* SSLightsForSwitchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSLightsForSwitchViewController.m; sourceTree = "<group>"; };
 		FFEBDF531A9AA0DA002E3AC1 /* SSLightViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSLightViewController.h; sourceTree = "<group>"; };
 		FFEBDF541A9AA0DA002E3AC1 /* SSLightViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSLightViewController.m; sourceTree = "<group>"; };
 		FFEBDF561A9BC2EE002E3AC1 /* SSCoreTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSCoreTableViewCell.h; sourceTree = "<group>"; };
@@ -161,8 +161,6 @@
 				FFEBDF481A8FCF99002E3AC1 /* SSCore.m */,
 				FFEBDF4D1A8FD9F6002E3AC1 /* SSSwitchViewController.h */,
 				FFEBDF4E1A8FD9F6002E3AC1 /* SSSwitchViewController.m */,
-				FFEBDF501A96DF7A002E3AC1 /* SSLightsForSwitchViewController.h */,
-				FFEBDF511A96DF7A002E3AC1 /* SSLightsForSwitchViewController.m */,
 				FFEBDF531A9AA0DA002E3AC1 /* SSLightViewController.h */,
 				FFEBDF541A9AA0DA002E3AC1 /* SSLightViewController.m */,
 				FFEBDF561A9BC2EE002E3AC1 /* SSCoreTableViewCell.h */,
@@ -175,6 +173,8 @@
 				FF4F43531AA0AC7600C5F163 /* SSEditDeviceViewController.m */,
 				FFC5AC371AA6211B009FA444 /* SSGroup.h */,
 				FFC5AC381AA6211B009FA444 /* SSGroup.m */,
+				FFC5AC3A1AA786E4009FA444 /* SSAddGroupViewController.h */,
+				FFC5AC3B1AA786E4009FA444 /* SSAddGroupViewController.m */,
 			);
 			path = SmartSwitchiOS;
 			sourceTree = "<group>";
@@ -352,7 +352,7 @@
 				85C2F71D1A3CD76100329C14 /* AppDelegate.m in Sources */,
 				85C2F7571A3CF48300329C14 /* AFJSONRequestOperation.m in Sources */,
 				85C2F71A1A3CD76100329C14 /* main.m in Sources */,
-				FFEBDF521A96DF7A002E3AC1 /* SSLightsForSwitchViewController.m in Sources */,
+				FFC5AC3C1AA786E4009FA444 /* SSAddGroupViewController.m in Sources */,
 				FFEBDF581A9BC2EE002E3AC1 /* SSCoreTableViewCell.m in Sources */,
 				FFEBDF4F1A8FD9F6002E3AC1 /* SSSwitchViewController.m in Sources */,
 				FF34DD4D1A8949C600A7544E /* SSManager.m in Sources */,

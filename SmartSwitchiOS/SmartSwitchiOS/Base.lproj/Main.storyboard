@@ -70,9 +70,9 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jq8-fm-Gf8">
-                                            <rect key="frame" x="558" y="7" width="67" height="30"/>
+                                            <rect key="frame" x="558" y="7" width="66" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Add Light">
+                                            <state key="normal" title="Add Core">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                         </button>
@@ -119,6 +119,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="XsI-OA-Npg">
+                        <barButtonItem key="leftBarButtonItem" title="Add Group" id="nf8-60-KPE">
+                            <connections>
+                                <action selector="addGroup:" destination="pzl-ax-yIU" id="ZP3-6j-Iw3"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Add Device" id="rcT-bf-I8Q">
                             <connections>
                                 <action selector="addDevice:" destination="pzl-ax-yIU" id="pM3-Wn-bAF"/>
@@ -129,6 +134,7 @@
                         <segue destination="gRg-Xp-N2G" kind="modal" identifier="addLight" id="dbF-sn-F3x"/>
                         <segue destination="akb-xO-9an" kind="modal" identifier="addDevice" modalPresentationStyle="currentContext" id="egS-Z8-oa9"/>
                         <segue destination="vM3-q1-Hgw" kind="modal" identifier="editDevice" id="o7G-4m-MN5"/>
+                        <segue destination="Oqh-hp-lcC" kind="modal" identifier="addGroup" id="xUU-EO-rW6"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fy9-2W-P9Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -339,6 +345,60 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2SE-xi-j9W" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1665" y="868"/>
+        </scene>
+        <!--Add Group View Controller-->
+        <scene sceneID="HKJ-Gt-Dfu">
+            <objects>
+                <viewController id="Oqh-hp-lcC" customClass="SSAddGroupViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="L1p-Qh-Grg"/>
+                        <viewControllerLayoutGuide type="bottom" id="Yoh-95-1gG"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="dvP-rZ-6Qa">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4v9-2R-bYp">
+                                <rect key="frame" x="0.0" y="15" width="768" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <navigationItem title="Add Group" id="A5d-Yn-BkS">
+                                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="ja6-4j-fYU">
+                                            <connections>
+                                                <action selector="cancelGroup:" destination="Oqh-hp-lcC" id="XSJ-Qm-ZVu"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Save" id="ZrC-uS-j9Z">
+                                            <connections>
+                                                <action selector="saveGroup:" destination="Oqh-hp-lcC" id="Jsl-QJ-3jz"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Gww-cG-34B">
+                                <rect key="frame" x="396" y="413" width="142" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bc1-cZ-q8k">
+                                <rect key="frame" x="310" y="416" width="46" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="nameField" destination="Gww-cG-34B" id="C2D-6Y-dYL"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7j5-RB-8xJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="709" y="-1228"/>
         </scene>
         <!--Add Device View Controller-->
         <scene sceneID="qxx-XR-krC">

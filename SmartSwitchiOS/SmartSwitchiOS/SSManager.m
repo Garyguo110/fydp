@@ -12,11 +12,10 @@
 @implementation SSManager
 
 @synthesize dataHelper;
-@synthesize switches;
-@synthesize lights;
-@synthesize mapping;
 @synthesize unclaimedIds;
 @synthesize unclaimedLights;
+@synthesize unclaimedSwitches;
+@synthesize groups;
 
 + (SSManager *)sharedInstance {
     static SSManager *sharedSSManager = nil;
@@ -46,69 +45,61 @@
     if(self == [super init]) {
         dataHelper = [[DataHelper allocWithZone:nil] initWithBaseURL:[NSURL URLWithString:@"https://api.spark.io"]];
         dataHelper.DEBUG_MODE = YES;
-        switches = [[NSMutableArray alloc] init];
-        lights = [[NSMutableArray alloc] init];
-        mapping = [[NSMutableDictionary alloc] init];
         unclaimedLights = [[NSMutableArray alloc] init];
+        unclaimedSwitches = [[NSMutableArray alloc] init];
         unclaimedIds = [[NSMutableArray alloc] init];
+        groups = [[NSMutableArray alloc] init];
     }
     return self;
 }
 
-- (SSCore *)getLightWithId:(NSString *)idString {
-    return [lights filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"deviceId = %@",idString]][0];
-}
-
-- (void)changeNameForCore:(SSCore *)core to:(NSString *)newName {
-    if (core.isSwitch) {
-        for (int i = 0; i < switches.count; i++) {
-            if ([((SSCore *)switches[i]).deviceId isEqualToString:core.deviceId]) {
-                ((SSCore *)switches[i]).name = newName;
-                break;
-            }
-        }
-    } else {
-        for (int i = 0; i < lights.count; i++) {
-            if ([((SSCore *)lights[i]).deviceId isEqualToString:core.deviceId]) {
-                ((SSCore *)lights[i]).name = newName;
-                break;
-            }
-        }
-    }
-}
-
 - (void)addCore:(SSCore *)core {
-    if (core.isSwitch) {
-        [switches addObject:core];
+    if(core.isSwitch) {
+        [unclaimedSwitches addObject:core];
     } else {
-        [lights addObject:core];
-        [unclaimedLights addObject:core.deviceId];
+        [unclaimedLights addObject:core];
     }
 }
 
--(void)removeMappingFromSwitch:(NSString *)switchId withIndex:(NSInteger)index {
-    NSString *removedId = [mapping objectForKey:switchId][index];
-    [[mapping objectForKey:switchId] removeObjectAtIndex:index];
-    for (NSString *key in mapping) {
-        if ([[mapping objectForKey:key] containsObject:removedId]) {
-            return;
-        }
+- (void)addCore:(SSCore *)core toGroup:(SSGroup *)group {
+    if (core.isSwitch) {
+        [unclaimedSwitches removeObject:core];
+        [group.switches addObject:core];
+    } else {
+        [unclaimedLights removeObject:core];
+        [group.lights addObject:core];
     }
-    [unclaimedLights addObject:removedId];
 }
 
-- (void)addMappingToSwitch:(NSString *)switchId fromLight:(NSString *)lightId {
-    if([mapping objectForKey:switchId] == nil) {
-        [mapping setObject:[[NSMutableArray alloc] init] forKey:switchId];
-    }
-    [[mapping objectForKey:switchId] addObject:lightId];
-    if([unclaimedLights containsObject:lightId]) {
-        [unclaimedLights removeObject:lightId];
+- (void)removeCore:(SSCore *)core fromGroup:(SSGroup *)group {
+    if (core.isSwitch) {
+        [group.switches removeObject:core];
+        [unclaimedSwitches addObject:core];
+    } else {
+        [group.lights removeObject:core];
+        [unclaimedLights addObject:core];
     }
 }
+
+- (void)removeGroupAtIndex:(NSInteger *)index {
+    SSGroup *group = [groups objectAtIndex:index];
+    while ([group.switches count] > 0) {
+        [self removeCore:[group.switches objectAtIndex:0] fromGroup:group];
+    }
+    while([group.lights count] > 0) {
+        [self removeCore:[group.lights objectAtIndex:0] fromGroup:group];
+    }
+    [groups removeObjectAtIndex:index];
+}
+
 - (void)setUnclaimedIds:(NSArray *)ids {
-    NSArray *filterSwitches = [ids filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"NOT(SELF IN %@)", [switches valueForKeyPath:@"deviceId"]]];
-    unclaimedIds = [filterSwitches filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"NOT(SELF IN %@)", [lights valueForKeyPath:@"deviceId"]]];
+    for (SSGroup *group in groups) {
+        ids = [ids filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"NOT(SELF IN %@)", [group.switches valueForKeyPath:@"deviceId"]]];
+        ids = [ids filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"NOT(SELF IN %@)", [group.lights valueForKeyPath:@"deviceId"]]];
+    }
+    ids = [ids filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"NOT(SELF IN %@)", [unclaimedSwitches valueForKeyPath:@"deviceId"]]];
+    ids = [ids filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"NOT(SELF IN %@)", [unclaimedLights valueForKeyPath:@"deviceId"]]];
+    unclaimedIds = ids;
 }
 
 

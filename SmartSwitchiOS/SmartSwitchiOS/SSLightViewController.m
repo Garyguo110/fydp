@@ -17,8 +17,6 @@
 
 @implementation SSLightViewController
 
-@synthesize idsToExclude;
-
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -58,18 +56,18 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    NSLog(@"number of rows");
-    NSLog(@"%d",[[SSManager sharedInstance].lights count]);
-    return [[SSManager sharedInstance].lights filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"NOT(deviceId IN %@)",idsToExclude]].count;
+    if(section == 0) {
+        return [[SSManager sharedInstance].unclaimedSwitches count];
+    } else  {
+        return [[SSManager sharedInstance].unclaimedLights count];
+    }
 }
 
 
@@ -78,11 +76,24 @@
     SSCoreTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LightCell" forIndexPath:indexPath];
     
     // Configure the cell...
-    SSCore *light = [[[SSManager sharedInstance].lights filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"NOT(deviceId IN %@)",idsToExclude]] objectAtIndex:[indexPath row]];
-    cell.core  = light;
-    [cell.nameLabel setText:light.name];
+    SSCore *core;
+    if (indexPath.section == 0) {
+        core = [[SSManager sharedInstance].unclaimedSwitches objectAtIndex:[indexPath row]];
+    } else {
+        core = [[SSManager sharedInstance].unclaimedLights objectAtIndex:[indexPath row]];
+    }
+    cell.core  = core;
+    [cell.nameLabel setText:core.name];
     
     return cell;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if(section == 0) {
+        return @"Switches";
+    } else {
+        return @"Lights";
+    }
 }
 
 /*

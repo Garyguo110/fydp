@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "SSManager.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +18,35 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    if (![[SSManager sharedInstance].dataHelper DEBUG_MODE]) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSArray *groups = [defaults objectForKey:@"groups"];
+        NSArray *unclaimedLights = [defaults objectForKey:@"unclaimedLights"];
+        NSArray *unclaimedSwitches = [defaults objectForKey:@"unclaimedSwitches"];
+        if (groups != nil) {
+            [SSManager sharedInstance].groups = [[NSMutableArray alloc] initWithArray:groups];
+        }
+        if (unclaimedLights != nil) {
+            [SSManager sharedInstance].unclaimedLights = [[NSMutableArray alloc] initWithArray:unclaimedLights];
+        }
+        if (unclaimedSwitches != nil) {
+            [SSManager sharedInstance].unclaimedSwitches = [[NSMutableArray alloc] initWithArray:unclaimedSwitches];
+        }
+    } else {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSArray *groups = [defaults objectForKey:@"groups_DEBUG"];
+        NSArray *unclaimedLights = [defaults objectForKey:@"unclaimedLights_DEBUG"];
+        NSArray *unclaimedSwitches = [defaults objectForKey:@"unclaimedSwitches_DEBUG"];
+        if (groups != nil) {
+            [SSManager sharedInstance].groups = [[NSMutableArray alloc] initWithArray:groups];
+        }
+        if (unclaimedLights != nil) {
+            [SSManager sharedInstance].unclaimedLights = [[NSMutableArray alloc] initWithArray:unclaimedLights];
+        }
+        if (unclaimedSwitches != nil) {
+            [SSManager sharedInstance].unclaimedSwitches = [[NSMutableArray alloc] initWithArray:unclaimedSwitches];
+        }
+    }
     return YES;
 }
 
@@ -40,6 +70,17 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    if (![[SSManager sharedInstance].dataHelper DEBUG_MODE]) {
+        [defaults setObject:[[SSManager sharedInstance] groups] forKey:@"groups"];
+        [defaults setObject:[[SSManager sharedInstance] unclaimedLights] forKey:@"unclaimedLights"];
+        [defaults setObject:[[SSManager sharedInstance] unclaimedSwitches] forKey:@"unclaimedSwitches"];
+    } else {
+        [defaults setObject:[[SSManager sharedInstance] groups] forKey:@"groups_DEBUG"];
+        [defaults setObject:[[SSManager sharedInstance] unclaimedLights] forKey:@"unclaimedLights_DEBUG"];
+        [defaults setObject:[[SSManager sharedInstance] unclaimedSwitches] forKey:@"unclaimedSwitches_DEBUG"];
+    }
 }
 
 @end

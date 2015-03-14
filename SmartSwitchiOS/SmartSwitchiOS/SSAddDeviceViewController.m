@@ -15,11 +15,10 @@
 @end
 
 @implementation SSAddDeviceViewController {
-    NSInteger selectedIndex;
+    NSIndexPath  *selectedIndex;
 }
 
 @synthesize nameField;
-@synthesize idField;
 @synthesize isSwitch;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -44,9 +43,13 @@
 }
 
 - (void)addDevice:(id)sender {
-    NSLog(@"%@",idField);
-    NSLog(@"%@",idField.text);
-    SSCore *newCore = [[SSCore alloc] initWithName:nameField.text deviceId:[[SSManager sharedInstance].unclaimedIds objectAtIndex:selectedIndex] switch:isSwitch.isOn];
+    if([nameField.text isEqualToString:@""] || selectedIndex == nil) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Insufficient Data" message:@"Please select a device id and provide a name for the device" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        
+        [alert show];
+        return;
+    }
+    SSCore *newCore = [[SSCore alloc] initWithName:nameField.text deviceId:[[SSManager sharedInstance].unclaimedIds objectAtIndex:selectedIndex.row] switch:isSwitch.isOn];
     [[SSManager sharedInstance] addCore:newCore];
     NSString *state = isSwitch.isOn ? @"SWITCH" : @"LIGHT";
     [[SSManager sharedInstance].dataHelper setState:state forDevice:newCore.deviceId success:^(NSNumber *status) {
@@ -81,7 +84,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    selectedIndex = [indexPath row];
+    selectedIndex = indexPath;
 }
 
 /*

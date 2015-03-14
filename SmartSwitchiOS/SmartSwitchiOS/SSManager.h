@@ -9,24 +9,25 @@
 #import <Foundation/Foundation.h>
 #import "DataHelper.h"
 #import "SSCore.h"
+#import "SSGroup.h"
 #import <UIKit/UIKit.h>
 
 @interface SSManager : NSObject
 
 @property (nonatomic, readonly) DataHelper *dataHelper;
-@property (nonatomic, strong) NSMutableArray *switches;
-@property (nonatomic, strong) NSMutableArray *lights;
-@property (nonatomic, strong) NSMutableDictionary *mapping;
 @property (nonatomic, strong) NSArray *unclaimedIds;
 @property (nonatomic, strong) NSMutableArray *unclaimedLights;
+@property (nonatomic, strong) NSMutableArray *unclaimedSwitches;
+@property (nonatomic, strong) NSMutableArray *groups;
 
 + (SSManager *) sharedInstance;
 - (UIView *)findSuperViewOf:(UIView *)view WithClass:(Class)superViewClass;
 - (SSCore *) getLightWithId:(NSString *)idString;
 - (void) changeNameForCore:(SSCore *)core to:(NSString *)newName;
 - (void) addCore:(SSCore *)core;
-- (void) removeMappingFromSwitch:(NSString *)switchId withIndex:(NSInteger)index;
-- (void) addMappingToSwitch:(NSString *)switchId fromLight:(NSString *)lightId;
+- (void) removeCore:(SSCore *)core fromGroup:(SSGroup *)group;
+- (void) addCore:(SSCore *)core toGroup:(SSGroup *)group;
+- (void) removeGroupAtIndex:(NSInteger *)index;
 - (void) setUnclaimedIds:(NSArray *)ids;
 
 @end

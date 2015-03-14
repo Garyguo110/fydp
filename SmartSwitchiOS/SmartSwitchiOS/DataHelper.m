@@ -132,25 +132,24 @@ static DataHelper *sharedObject = nil;
     }
 }
 
-- (void)setLight:(NSString *)lightId forSwitch:(NSString *)switchId success:(void (^)(NSNumber *))success failure:(void (^)(NSString *))failure {
-    if(DEBUG_MODE) {
+- (void)setCore:(NSString *)coreId forGroup:(NSString *)groupId success:(void (^)(NSNumber *))success failure:(void (^)(NSString *))failure {
+    if (DEBUG_MODE) {
         success([NSNumber numberWithInt:1]);
     } else {
         NSDictionary *params = @{
                                  @"access_token": self.access_token,
-                                 @"params": lightId
+                                 @"params": groupId
                                  };
-        
-        [self callMethod:@"POST" path:[NSString stringWithFormat:@"v1/devices/%@/setCores", switchId] parameters:params notifyAuthenticationFailure:NO success:^
-         (NSInteger statusCode, id JSON) {
-             NSError *error;
-             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:JSON
-                                                                  options:kNilOptions
-                                                                    error:&error];
-             success([json objectForKey:@"return_value"]);
-         }failure:^(NSInteger statusCode, NSDictionary *dict) {
-             failure([dict[@"errors"] componentsJoinedByString:@" "]);
-         }];
+        [self callMethod:@"POST" path:[NSString stringWithFormat:@"v1/devices/%@/setCores", coreId] parameters:params notifyAuthenticationFailure:NO success:^
+                  (NSInteger statusCode, id JSON) {
+                      NSError *error;
+                      NSDictionary *json = [NSJSONSerialization JSONObjectWithData:JSON
+                                                                           options:kNilOptions
+                                                                             error:&error];
+                      success([json objectForKey:@"return_value"]);
+                  }failure:^(NSInteger statusCode, NSDictionary *dict) {
+                      failure([dict[@"errors"] componentsJoinedByString:@" "]);
+                  }];
     }
 }
 

@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SSCore.h"
+#import "SSGroup.h"
 
 @interface SSSwitchTableViewCell : UITableViewCell <UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, weak) SSCore *core;
+@property (nonatomic, weak) SSGroup *group;
 @property (nonatomic, weak) IBOutlet UIButton *addLightButton;
 @property (nonatomic, weak) IBOutlet UILabel *nameLabel;
 @property (nonatomic, weak) IBOutlet UIButton *editButton;

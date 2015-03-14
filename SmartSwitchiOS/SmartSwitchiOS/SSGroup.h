@@ -11,6 +11,10 @@
 @interface SSGroup : NSObject
 
 @property (nonatomic, strong) NSString* name;
-@property (nonatomic, strong) NSArray* switches;
-@property (nonatomic, strong) NSArray *lights;
+@property (nonatomic, strong) NSString *groupId;
+@property (nonatomic, strong) NSMutableArray* switches;
+@property (nonatomic, strong) NSMutableArray *lights;
+
+-(id)initWithName:(NSString *)name;
+
 @end

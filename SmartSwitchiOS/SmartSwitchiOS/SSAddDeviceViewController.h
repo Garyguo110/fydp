@@ -11,7 +11,6 @@
 @interface SSAddDeviceViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, weak) IBOutlet UITextField *nameField;
-@property (nonatomic, weak) IBOutlet UITextField *idField;
 @property (nonatomic, weak) IBOutlet UISwitch *isSwitch;
 
 - (IBAction)addDevice:(id)sender;
