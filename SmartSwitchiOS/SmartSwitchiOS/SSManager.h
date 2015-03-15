@@ -29,5 +29,7 @@
 - (void) addCore:(SSCore *)core toGroup:(SSGroup *)group;
 - (void) removeGroupAtIndex:(NSInteger *)index;
 - (void) setUnclaimedIds:(NSArray *)ids;
+- (void) saveData;
+- (void) loadData;
 
 @end

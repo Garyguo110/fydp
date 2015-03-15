@@ -236,7 +236,7 @@
         }
         
         else {
-            return baseHeight + 44 + ([group.switches count] + [group.lights count])* baseHeight + 1;
+            return baseHeight + 40 + ([group.switches count] + [group.lights count]) * 30 + 1;
         }
     }
     
@@ -297,16 +297,17 @@
     }
     if([segue.identifier isEqualToString:@"editDevice"]) {
         SSEditDeviceViewController *edvc = segue.destinationViewController;
+        edvc.modalPresentationStyle = UIModalPresentationOverCurrentContext;
         edvc.core = selectedCore;
     }
     if([segue.identifier isEqualToString:@"addDevice"]) {
         SSAddDeviceViewController *advc = segue.destinationViewController;
-        advc.modalPresentationStyle = UIModalPresentationCurrentContext;
-        self.modalPresentationStyle = UIModalPresentationCurrentContext;
+        advc.modalPresentationStyle = UIModalPresentationOverCurrentContext;
     }
     if ([segue.identifier isEqualToString:@"addGroup"]) {
+        SSAddGroupViewController *agvc = segue.destinationViewController;
+        agvc.modalPresentationStyle = UIModalPresentationOverCurrentContext;
         if (isEdit) {
-            SSAddGroupViewController *agvc = segue.destinationViewController;
             agvc.group = selectedGroup;
         }
         isEdit = NO;

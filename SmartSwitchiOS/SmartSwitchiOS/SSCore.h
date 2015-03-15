@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface SSCore : NSObject
+@interface SSCore : NSObject <NSCoding>
 
 @property (nonatomic, assign) BOOL isSwitch;
 @property (nonatomic, strong) NSString *deviceId;

@@ -76,7 +76,7 @@
         } else {
             core = [group.lights objectAtIndex:[indexPath row]];
         }
-        UIButton *deleteLightButton  = [[UIButton alloc] initWithFrame:CGRectMake(706, 10, 44, 30)];
+        UIButton *deleteLightButton  = [[UIButton alloc] initWithFrame:CGRectMake(706, 5, 44, 20)];
         [deleteLightButton setTitle:@"Delete" forState:UIControlStateNormal];
         [deleteLightButton setFont:[UIFont systemFontOfSize:15]];
         [deleteLightButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -84,8 +84,11 @@
         
         [cell addSubview:deleteLightButton];
     }
-    cell.textLabel.text = core.name;
-    UIButton *editLightButton = [[UIButton alloc] initWithFrame:CGRectMake(644, 10, 30, 30)];
+    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(36, 4, 700, 22)];
+    nameLabel.text = core.name;
+    nameLabel.font = [UIFont systemFontOfSize:15];
+    [cell addSubview:nameLabel];
+    UIButton *editLightButton = [[UIButton alloc] initWithFrame:CGRectMake(644, 5, 30, 20)];
     [editLightButton setTitle:@"Edit" forState:UIControlStateNormal];
     [editLightButton addTarget:self action:@selector(editLightRow:) forControlEvents:UIControlEventTouchUpInside];
     [editLightButton setFont:[UIFont systemFontOfSize:15]];
@@ -93,6 +96,27 @@
 
     [cell addSubview:editLightButton];
     return cell;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(18, 2, 748, 16)];
+    label.font = [UIFont boldSystemFontOfSize:14];
+    label.text = [self tableView:tableView titleForHeaderInSection:section];
+    
+    UIView *headerView = [[UIView alloc] init];
+    [headerView setBackgroundColor:[UIColor colorWithWhite:0.9
+                                                     alpha:1]];
+    [headerView addSubview:label];
+    return headerView;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 20;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 30;
 }
 
 - (void)editLightRow:(id)sender {

@@ -59,6 +59,7 @@
     } else {
         [unclaimedLights addObject:core];
     }
+    [self saveData];
 }
 
 - (void)addCore:(SSCore *)core toGroup:(SSGroup *)group {
@@ -69,6 +70,7 @@
         [unclaimedLights removeObject:core];
         [group.lights addObject:core];
     }
+    [self saveData];
 }
 
 - (void)removeCore:(SSCore *)core fromGroup:(SSGroup *)group {
@@ -79,6 +81,7 @@
         [group.lights removeObject:core];
         [unclaimedLights addObject:core];
     }
+    [self saveData];
 }
 
 - (void)removeGroupAtIndex:(NSInteger *)index {
@@ -90,6 +93,7 @@
         [self removeCore:[group.lights objectAtIndex:0] fromGroup:group];
     }
     [groups removeObjectAtIndex:index];
+    [self saveData];
 }
 
 - (void)setUnclaimedIds:(NSArray *)ids {
@@ -102,5 +106,43 @@
     unclaimedIds = ids;
 }
 
+- (void)saveData {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    if (![dataHelper DEBUG_MODE]) {
+        [defaults setObject:[NSKeyedArchiver archivedDataWithRootObject:groups] forKey:@"groups"];
+        [defaults setObject:[NSKeyedArchiver archivedDataWithRootObject:unclaimedLights] forKey:@"unclaimedLights"];
+        [defaults setObject:[NSKeyedArchiver archivedDataWithRootObject:unclaimedSwitches] forKey:@"unclaimedSwitches"];
+    } else {
+        [defaults setObject:[NSKeyedArchiver archivedDataWithRootObject:groups] forKey:@"groups_DEBUG"];
+        [defaults setObject:[NSKeyedArchiver archivedDataWithRootObject:unclaimedLights] forKey:@"unclaimedLights_DEBUG"];
+        [defaults setObject:[NSKeyedArchiver archivedDataWithRootObject:unclaimedSwitches] forKey:@"unclaimedSwitches_DEBUG"];
+    }
+    [defaults synchronize];
+}
 
+- (void)loadData {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSData *_groups;
+    NSData *_unclaimedLights;
+    NSData *_unclaimedSwitches;
+    if (![dataHelper DEBUG_MODE]) {
+        _groups = [defaults objectForKey:@"groups"];
+        _unclaimedLights = [defaults objectForKey:@"unclaimedLights"];
+        _unclaimedSwitches = [defaults objectForKey:@"unclaimedSwitches"];
+    } else {
+        _groups = [defaults objectForKey:@"groups_DEBUG"];
+        _unclaimedLights = [defaults objectForKey:@"unclaimedLights_DEBUG"];
+        _unclaimedSwitches = [defaults objectForKey:@"unclaimedSwitches_DEBUG"];
+    }
+    if ([NSKeyedUnarchiver unarchiveObjectWithData:_groups] != nil) {
+        groups = [[NSMutableArray alloc] initWithArray:[NSKeyedUnarchiver unarchiveObjectWithData:_groups]];
+    }
+    if ([NSKeyedUnarchiver unarchiveObjectWithData:_unclaimedLights] != nil) {
+        unclaimedLights = [[NSMutableArray alloc] initWithArray:[NSKeyedUnarchiver unarchiveObjectWithData:_unclaimedLights]];
+    }
+    if ([NSKeyedUnarchiver unarchiveObjectWithData:_unclaimedSwitches] != nil) {
+        unclaimedSwitches = [[NSMutableArray alloc] initWithArray:[NSKeyedUnarchiver unarchiveObjectWithData:_unclaimedSwitches]];
+    }
+}
 @end

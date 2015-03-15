@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface SSGroup : NSObject
+@interface SSGroup : NSObject <NSCoding>
 
 @property (nonatomic, strong) NSString* name;
 @property (nonatomic, strong) NSString *groupId;

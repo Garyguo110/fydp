@@ -34,4 +34,19 @@
     return self;
 }
 
+-(id)initWithCoder:(NSCoder *)aDecoder {
+    if ((self = [super init])) {
+        name = [aDecoder decodeObjectForKey:@"name"];
+        deviceId = [aDecoder decodeObjectForKey:@"deviceId"];
+        isSwitch = [aDecoder decodeBoolForKey:@"isSwitch"];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    [encoder encodeObject:name forKey:@"name"];
+    [encoder encodeObject:deviceId forKey:@"deviceId"];
+    [encoder encodeBool:isSwitch forKey:@"isSwitch"];
+}
+
 @end

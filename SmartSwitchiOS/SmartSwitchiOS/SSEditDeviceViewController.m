@@ -52,6 +52,10 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     self.nameField.text = self.core.name;
+    CALayer *bottomBorder = [CALayer layer];
+    bottomBorder.frame = CGRectMake(0.0f, self.nameField.frame.size.height - 1, self.nameField.frame.size.width, 1.0f);
+    bottomBorder.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1].CGColor;
+    [self.nameField.layer addSublayer:bottomBorder];
 }
 
 /*

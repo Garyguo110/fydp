@@ -13,6 +13,7 @@
 @synthesize name;
 @synthesize switches;
 @synthesize lights;
+@synthesize groupId;
 
 -(id)initWithName:(NSString *)name {
     self = [super init];
@@ -21,6 +22,16 @@
         self.switches = [[NSMutableArray alloc] init];
         self.lights = [[NSMutableArray alloc] init];
         self.groupId = [SSGroup generateRandomString:20];
+    }
+    return self;
+}
+
+- (id)initWithCoder:(NSCoder *)decoder {
+    if ((self = [super init])) {
+        switches = [decoder decodeObjectForKey:@"switches"];
+        lights = [decoder decodeObjectForKey:@"lights"];
+        name = [decoder decodeObjectForKey:@"name"];
+        groupId = [decoder decodeObjectForKey:@"groupId"];
     }
     return self;
 }
@@ -34,6 +45,13 @@
         [s appendFormat:@"%C", c];
     }
     return s;
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    [encoder encodeObject:switches forKey:@"switches"];
+    [encoder encodeObject:lights forKey:@"lights"];
+    [encoder encodeObject:name forKey:@"name"];
+    [encoder encodeObject:groupId forKey:@"groupId"];
 }
 
 @end
