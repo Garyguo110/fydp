@@ -19,6 +19,7 @@
 @interface SSLightViewController : UITableViewController
 
 @property (nonatomic, weak) id <SSLightViewControllerDelegate> delegate;
+@property (nonatomic, assign) BOOL isGroupOn;
 
 - (IBAction)cancel:(id)sender;
 - (IBAction)done:(id)sender;

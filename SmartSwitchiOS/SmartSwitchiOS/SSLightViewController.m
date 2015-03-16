@@ -17,6 +17,8 @@
 
 @implementation SSLightViewController
 
+@synthesize isGroupOn;
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -49,6 +51,11 @@
 
 - (void)done:(id)sender {
     SSCoreTableViewCell *cell = (SSCoreTableViewCell *)[self.tableView cellForRowAtIndexPath:[self.tableView indexPathForSelectedRow]];
+    if (cell == nil) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Select a Core" message:@"You must select a core to continue" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
     [self.delegate didSelectLightFrom:self withCore:cell.core];
 }
 

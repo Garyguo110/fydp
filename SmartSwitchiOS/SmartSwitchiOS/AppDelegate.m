@@ -18,7 +18,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    [[SSManager sharedInstance] loadData];
+    //[[SSManager sharedInstance] loadData];
     return YES;
 }
 

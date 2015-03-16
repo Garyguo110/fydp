@@ -14,6 +14,7 @@
 @synthesize switches;
 @synthesize lights;
 @synthesize groupId;
+@synthesize isOn;
 
 -(id)initWithName:(NSString *)name {
     self = [super init];
@@ -22,6 +23,7 @@
         self.switches = [[NSMutableArray alloc] init];
         self.lights = [[NSMutableArray alloc] init];
         self.groupId = [SSGroup generateRandomString:20];
+        isOn = NO;
     }
     return self;
 }

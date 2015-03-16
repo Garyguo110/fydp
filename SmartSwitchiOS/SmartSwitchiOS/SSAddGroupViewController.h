@@ -12,6 +12,8 @@
 @interface SSAddGroupViewController : UIViewController
 
 @property (nonatomic, strong) IBOutlet UITextField *nameField;
+@property (nonatomic, strong) IBOutlet UIButton *saveButton;
+@property (nonatomic, strong) IBOutlet UIButton *cancelButton;
 @property (nonatomic, strong) SSGroup *group;
 
 -(IBAction)saveGroup:(id)sender;

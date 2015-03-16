@@ -31,7 +31,8 @@
     [[SSManager sharedInstance].dataHelper login:^(NSString * authToken) {
         [self performSegueWithIdentifier:@"login" sender:sender];
     } failure:^(NSString * failure) {
-        NSLog(failure);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:failure delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
     }];
 }
 

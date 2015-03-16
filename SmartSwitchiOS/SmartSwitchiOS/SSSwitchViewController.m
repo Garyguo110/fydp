@@ -23,7 +23,9 @@
     SSGroup *selectedGroup;
     SSCore *selectedCore;
     NSIndexPath *indexToDelete;
+    NSIndexPath *selectedIndex;
     BOOL isEdit;
+    BOOL isGroupOn;
 }
 @synthesize spinnerView;
 
@@ -41,8 +43,7 @@
 {
     [super viewDidLoad];
     
-    self.tableView.allowsMultipleSelectionDuringEditing = NO;
-    self.tableView.allowsSelection = NO;
+    isGroupOn = NO;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView:) name:@"reloadTableView" object:nil];
     
@@ -64,6 +65,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.tableView reloadData];
+    NSLog(@"%@",[[SSManager sharedInstance] groups]);
 }
 
 - (void)didReceiveMemoryWarning
@@ -74,7 +76,17 @@
 
 - (void)addLight:(id)sender {
     selectedGroup = ((SSSwitchTableViewCell *)[[SSManager sharedInstance] findSuperViewOf:sender WithClass:[SSSwitchTableViewCell class]]).group;
-    [self performSegueWithIdentifier:@"addLight" sender:sender];
+    if (selectedGroup.lights.count > 0) {
+        NSString *deviceId = [[selectedGroup.lights objectAtIndex:0] deviceId];
+        [[SSManager sharedInstance].dataHelper getLightState:deviceId success:^(NSNumber *statusCode) {
+            isGroupOn = statusCode.integerValue == 1;
+            [self performSegueWithIdentifier:@"addLight" sender:sender];
+        } failure:^(NSString *error) {
+            NSLog(@"Error recieved: %@", error);
+        }];
+    } else {
+        [self performSegueWithIdentifier:@"addLight" sender:sender];
+    }
 }
 
 - (void)addDevice:(id)sender {
@@ -82,7 +94,8 @@
         [[SSManager sharedInstance] setUnclaimedIds:ids];
         [self performSegueWithIdentifier:@"addDevice" sender:sender];
     } failure:^(NSString *error) {
-        NSLog(error);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
     }];
 }
 
@@ -121,6 +134,19 @@
 
 - (void)didSelectLightFrom:(SSLightViewController *)controller withCore:(SSCore *)core {
     [spinnerView setHidden:NO];
+    if (controller.isGroupOn && !core.isSwitch) {
+        [[SSManager sharedInstance].dataHelper flipLight:core.deviceId withCommand:@"ON" success:^(NSNumber *statusCode) {
+            NSLog(@"Status code %@ when flipping %@", statusCode, core.deviceId);
+        } failure:^(NSString *error) {
+            NSLog(error);
+        }];
+    } else if (!controller.isGroupOn && !core.isSwitch) {
+        [[SSManager sharedInstance].dataHelper flipLight:core.deviceId withCommand:@"OFF" success:^(NSNumber *statusCode) {
+            NSLog(@"Status code %@ when flipping %@", statusCode, core.deviceId);
+        } failure:^(NSString *error) {
+            NSLog(error);
+        }];
+    }
     [[SSManager sharedInstance].dataHelper setCore:core.deviceId forGroup:selectedGroup.groupId success:^(NSNumber *statusCode) {
         NSLog(@"Recieved status code of %@ when mapping %@ to %@", statusCode, core.name, selectedGroup.name);
         [[SSManager sharedInstance] addCore:core toGroup:selectedGroup];
@@ -128,7 +154,8 @@
         [self dismissViewControllerAnimated:YES completion:nil];
         [self.tableView reloadData];
     } failure:^(NSString *error) {
-        NSLog(error);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
     }];
 }
 
@@ -147,7 +174,8 @@
                     [self.tableView deleteRowsAtIndexPaths:@[indexToDelete] withRowAnimation:UITableViewRowAnimationAutomatic];
                 }
             } failure:^(NSString *error) {
-                NSLog(error);
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alert show];
             }];
         }
     }
@@ -225,25 +253,32 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat baseHeight = 44.0f;
-    if(indexPath.row == [[SSManager sharedInstance].groups count]) {
-        return baseHeight + [[SSManager sharedInstance].unclaimedLights count] * baseHeight;
+    if([indexPath isEqual:selectedIndex]) {
+        CGFloat baseHeight = 44.0f;
+        if(indexPath.row == [[SSManager sharedInstance].groups count]) {
+            return baseHeight + [[SSManager sharedInstance].unclaimedLights count] * baseHeight;
+        } else {
+            SSGroup *group = [[SSManager sharedInstance].groups objectAtIndex:indexPath.row];
+            
+            if([group.switches count] + [group.lights count] == 0) {
+                return baseHeight;
+            }
+            
+            else {
+                return baseHeight + 40 + ([group.switches count] + [group.lights count]) * 30 + 1;
+            }
+        }
     } else {
-        SSGroup *group = [[SSManager sharedInstance].groups objectAtIndex:indexPath.row];
-        
-        if([group.switches count] + [group.lights count] == 0) {
-            return baseHeight;
-        }
-        
-        else {
-            return baseHeight + 40 + ([group.switches count] + [group.lights count]) * 30 + 1;
-        }
+        return 44.0;
     }
-    
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    selectedIndex = indexPath;
+    
+    [tableView beginUpdates];
+    [tableView endUpdates];
 }
 
 /*
@@ -293,6 +328,7 @@
     if([segue.identifier isEqualToString:@"addLight"]) {
         UINavigationController *navController = segue.destinationViewController;
         SSLightViewController *lightController = [navController viewControllers][0];
+        lightController.isGroupOn = isGroupOn;
         lightController.delegate = self;
     }
     if([segue.identifier isEqualToString:@"editDevice"]) {

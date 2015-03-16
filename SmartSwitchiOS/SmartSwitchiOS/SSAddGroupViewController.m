@@ -56,11 +56,29 @@
         SSGroup *group = [[SSGroup alloc] initWithName:name];
         [[SSManager sharedInstance].groups addObject:group];
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)cancelGroup:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    CALayer *topBorderSave = [CALayer layer];
+    topBorderSave.frame = CGRectMake(0.0f, 0.0f, self.saveButton.frame.size.width, 1.0f);
+    topBorderSave.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0].CGColor;
+    [self.saveButton.layer addSublayer:topBorderSave];
+    
+    CALayer *topBorderCancel = [CALayer layer];
+    topBorderCancel.frame = CGRectMake(0.0f, 0.0f, self.cancelButton.frame.size.width, 1.0f);
+    topBorderCancel.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0].CGColor;
+    [self.cancelButton.layer addSublayer:topBorderCancel];
+    
+    CALayer *leftBorderSave = [CALayer layer];
+    leftBorderSave.frame = CGRectMake(0.0f, 0.0f, 1.0f, self.saveButton.frame.size.height);
+    leftBorderSave.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0].CGColor;
+    [self.saveButton.layer addSublayer:leftBorderSave];
 }
 
 /*

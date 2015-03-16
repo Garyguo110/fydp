@@ -23,6 +23,7 @@ void setup() {
   Spark.function("setState", setState);
   Spark.function("setCores", setCores);
   Spark.function("flipLight", flipLight);
+  Spark.function("getLS", getLS);
 
   Spark.subscribe("flip_switch", switchHandler);
 
@@ -99,7 +100,7 @@ int flipLight(String command)
 {
   String st = state;
   if(command == "TOGGLE") {
-    if( st == "LIGHT") {
+    if(state == "LIGHT") {
       if( lightState == 0 ){
         digitalWrite(power, HIGH);
         digitalWrite(output1, HIGH);
@@ -118,13 +119,20 @@ int flipLight(String command)
       digitalWrite(power, LOW);
       digitalWrite(output1, LOW);
       lightState = 0;
+      return 1;
     }
   } else if (command == "ON") {
     if(lightState ==  0) {
       digitalWrite(power, HIGH);
-      digitalWrite(power, LOW);
+      digitalWrite(output1, HIGH);
+      lightState = 1;
+      return 1;
     }
-  } else return -1;
+  } else return -2;
+}
+
+int getLS(String command) {
+  return lightState;
 }
 
 void switchHandler(const char *event, const char *data) {

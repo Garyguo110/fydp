@@ -27,6 +27,11 @@
 		FF34DD4D1A8949C600A7544E /* SSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FF34DD4C1A8949C600A7544E /* SSManager.m */; };
 		FF4F43511A9F935C00C5F163 /* SSAddDeviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF4F43501A9F935C00C5F163 /* SSAddDeviceViewController.m */; };
 		FF4F43541AA0AC7600C5F163 /* SSEditDeviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF4F43531AA0AC7600C5F163 /* SSEditDeviceViewController.m */; };
+		FF8283441AB625D5006D0733 /* pencil--ios-7-interface-symbol_318-36866.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FF8283411AB625D5006D0733 /* pencil--ios-7-interface-symbol_318-36866.jpg */; };
+		FF8283461AB629B4006D0733 /* Cancel-50.png in Resources */ = {isa = PBXBuildFile; fileRef = FF8283451AB629B4006D0733 /* Cancel-50.png */; };
+		FF8283481AB629BF006D0733 /* Close-50.png in Resources */ = {isa = PBXBuildFile; fileRef = FF8283471AB629BF006D0733 /* Close-50.png */; };
+		FF82834A1AB629E1006D0733 /* Plus-50 (1).png in Resources */ = {isa = PBXBuildFile; fileRef = FF8283491AB629E1006D0733 /* Plus-50 (1).png */; };
+		FF82834C1AB629FE006D0733 /* Edit-50 (1).png in Resources */ = {isa = PBXBuildFile; fileRef = FF82834B1AB629FE006D0733 /* Edit-50 (1).png */; };
 		FFC5AC391AA6211B009FA444 /* SSGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = FFC5AC381AA6211B009FA444 /* SSGroup.m */; };
 		FFC5AC3C1AA786E4009FA444 /* SSAddGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FFC5AC3B1AA786E4009FA444 /* SSAddGroupViewController.m */; };
 		FFEBDF491A8FCF99002E3AC1 /* SSCore.m in Sources */ = {isa = PBXBuildFile; fileRef = FFEBDF481A8FCF99002E3AC1 /* SSCore.m */; };
@@ -87,6 +92,11 @@
 		FF4F43501A9F935C00C5F163 /* SSAddDeviceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSAddDeviceViewController.m; sourceTree = "<group>"; };
 		FF4F43521AA0AC7600C5F163 /* SSEditDeviceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSEditDeviceViewController.h; sourceTree = "<group>"; };
 		FF4F43531AA0AC7600C5F163 /* SSEditDeviceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSEditDeviceViewController.m; sourceTree = "<group>"; };
+		FF8283411AB625D5006D0733 /* pencil--ios-7-interface-symbol_318-36866.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "pencil--ios-7-interface-symbol_318-36866.jpg"; path = "../../../../Documents/Dropbox/4B/ECE 498B/App Pictures/pencil--ios-7-interface-symbol_318-36866.jpg"; sourceTree = "<group>"; };
+		FF8283451AB629B4006D0733 /* Cancel-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Cancel-50.png"; path = "../../../../Downloads/Cancel-50.png"; sourceTree = "<group>"; };
+		FF8283471AB629BF006D0733 /* Close-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Close-50.png"; path = "../../../../Downloads/Close-50.png"; sourceTree = "<group>"; };
+		FF8283491AB629E1006D0733 /* Plus-50 (1).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Plus-50 (1).png"; path = "../../../../Downloads/Plus-50 (1).png"; sourceTree = "<group>"; };
+		FF82834B1AB629FE006D0733 /* Edit-50 (1).png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Edit-50 (1).png"; path = "../../../../Downloads/Edit-50 (1).png"; sourceTree = "<group>"; };
 		FFC5AC371AA6211B009FA444 /* SSGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSGroup.h; sourceTree = "<group>"; };
 		FFC5AC381AA6211B009FA444 /* SSGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSGroup.m; sourceTree = "<group>"; };
 		FFC5AC3A1AA786E4009FA444 /* SSAddGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSAddGroupViewController.h; sourceTree = "<group>"; };
@@ -150,6 +160,11 @@
 				85C2F71E1A3CD76100329C14 /* SSLoginViewController.h */,
 				85C2F71F1A3CD76100329C14 /* SSLoginViewController.m */,
 				85C2F7211A3CD76100329C14 /* Main.storyboard */,
+				FF82834B1AB629FE006D0733 /* Edit-50 (1).png */,
+				FF8283451AB629B4006D0733 /* Cancel-50.png */,
+				FF8283491AB629E1006D0733 /* Plus-50 (1).png */,
+				FF8283471AB629BF006D0733 /* Close-50.png */,
+				FF8283411AB625D5006D0733 /* pencil--ios-7-interface-symbol_318-36866.jpg */,
 				85C2F7241A3CD76100329C14 /* Images.xcassets */,
 				85C2F7261A3CD76100329C14 /* LaunchScreen.xib */,
 				85C2F7171A3CD76100329C14 /* Supporting Files */,
@@ -321,6 +336,11 @@
 				85C2F7231A3CD76100329C14 /* Main.storyboard in Resources */,
 				85C2F7281A3CD76100329C14 /* LaunchScreen.xib in Resources */,
 				85C2F7251A3CD76100329C14 /* Images.xcassets in Resources */,
+				FF8283481AB629BF006D0733 /* Close-50.png in Resources */,
+				FF82834C1AB629FE006D0733 /* Edit-50 (1).png in Resources */,
+				FF8283461AB629B4006D0733 /* Cancel-50.png in Resources */,
+				FF8283441AB625D5006D0733 /* pencil--ios-7-interface-symbol_318-36866.jpg in Resources */,
+				FF82834A1AB629E1006D0733 /* Plus-50 (1).png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

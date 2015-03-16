@@ -10,6 +10,8 @@
 #import "SSCore.h"
 #import "SSManager.h"
 
+#define ARCRANDOM_MAX 0x100000000
+
 @interface SSAddDeviceViewController ()
 
 @end
@@ -19,7 +21,7 @@
 }
 
 @synthesize nameField;
-@synthesize isSwitch;
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -43,25 +45,69 @@
 }
 
 - (void)addDevice:(id)sender {
+    BOOL isSwitch;
     if([nameField.text isEqualToString:@""] || selectedIndex == nil) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Insufficient Data" message:@"Please select a device id and provide a name for the device" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         
         [alert show];
         return;
     }
-    SSCore *newCore = [[SSCore alloc] initWithName:nameField.text deviceId:[[SSManager sharedInstance].unclaimedIds objectAtIndex:selectedIndex.row] switch:isSwitch.isOn];
+    
+    NSString *deviceId = [[SSManager sharedInstance].unclaimedIds objectAtIndex:selectedIndex.row];
+
+    [[SSManager sharedInstance].dataHelper flipLight:deviceId withCommand:@"OFF" success:^(NSNumber *statusCode) {
+        NSLog(@"got status code of %@ when flipping %@", statusCode, deviceId);
+    } failure:^(NSString *error) {
+        NSLog(error);
+    }];
+    
+    if ([[SSManager sharedInstance].dataHelper DEBUG_MODE]) {
+        double rand = ((double)arc4random() / ARCRANDOM_MAX);
+        if(rand > 0.5) {
+            isSwitch = YES;
+        } else {
+            isSwitch = NO;
+        }
+    } else {
+        isSwitch = ![[SSManager sharedInstance].lightIds containsObject:deviceId];
+    }
+    SSCore *newCore = [[SSCore alloc] initWithName:nameField.text deviceId:[[SSManager sharedInstance].unclaimedIds objectAtIndex:selectedIndex.row] switch:isSwitch];
     [[SSManager sharedInstance] addCore:newCore];
-    NSString *state = isSwitch.isOn ? @"SWITCH" : @"LIGHT";
+    NSString *state = isSwitch ? @"SWITCH" : @"LIGHT";
     [[SSManager sharedInstance].dataHelper setState:state forDevice:newCore.deviceId success:^(NSNumber *status) {
         NSLog(@"Status %@ when setting state for %@", status, newCore.name);
         [self dismissViewControllerAnimated:YES completion:nil];
     } failure:^(NSString *error) {
-        NSLog(error);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
     }];
 }
 
 - (void)cancelAddDevice:(id)sender {
+    NSString *deviceId = [[SSManager sharedInstance].unclaimedIds objectAtIndex:selectedIndex.row];
+    [[SSManager sharedInstance].dataHelper flipLight:deviceId withCommand:@"OFF" success:^(NSNumber *statusCode) {
+        NSLog(@"Got statuscode %@ when flipping %@", statusCode, deviceId);
+    } failure:^(NSString *error) {
+        NSLog(error);
+    }];
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    CALayer *topBorderSave = [CALayer layer];
+    topBorderSave.frame = CGRectMake(0.0f, 0.0f, self.saveButton.frame.size.width, 1.0f);
+    topBorderSave.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0].CGColor;
+    [self.saveButton.layer addSublayer:topBorderSave];
+    
+    CALayer *topBorderCancel = [CALayer layer];
+    topBorderCancel.frame = CGRectMake(0.0f, 0.0f, self.cancelButton.frame.size.width, 1.0f);
+    topBorderCancel.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0].CGColor;
+    [self.cancelButton.layer addSublayer:topBorderCancel];
+    
+    CALayer *leftBorderSave = [CALayer layer];
+    leftBorderSave.frame = CGRectMake(0.0f, 0.0f, 1.0f, self.saveButton.frame.size.height);
+    leftBorderSave.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0].CGColor;
+    [self.saveButton.layer addSublayer:leftBorderSave];
 }
 
 #pragma  mark - Table View
@@ -84,7 +130,19 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *deviceId = [[SSManager sharedInstance].unclaimedIds objectAtIndex:selectedIndex.row];
+    [[SSManager sharedInstance].dataHelper flipLight:deviceId withCommand:@"OFF" success:^(NSNumber *statusCode) {
+        NSLog(@"got status code of %@ when flipping %@", statusCode, deviceId);
+    } failure:^(NSString *error) {
+        NSLog(error);
+    }];
     selectedIndex = indexPath;
+    deviceId = [[SSManager sharedInstance].unclaimedIds objectAtIndex:selectedIndex.row];
+    [[SSManager sharedInstance].dataHelper flipLight:deviceId withCommand:@"ON" success:^(NSNumber *statusCode) {
+        NSLog(@"got status code of %@ when flipping %@", statusCode, deviceId);
+    } failure:^(NSString *error) {
+        NSLog(error);
+    }];
 }
 
 /*

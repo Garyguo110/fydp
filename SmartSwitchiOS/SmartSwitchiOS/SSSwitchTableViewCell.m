@@ -62,6 +62,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    tableView.allowsSelection = NO;
     UITableViewCell *cell  = [tableView dequeueReusableCellWithIdentifier:@"LightForSwitchCell"];
     if(!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"LightForSwitchCell"];
@@ -69,7 +70,7 @@
     SSCore *core;
     if(isUnclaimedCell) {
         NSString *lightId = [[SSManager sharedInstance].unclaimedLights objectAtIndex:indexPath.row];
-        core = [[SSManager sharedInstance] getLightWithId:lightId];
+        //core = [[SSManager sharedInstance] getLightWithId:lightId];
     } else {
         if([indexPath section] == 0) {
             core = [group.switches objectAtIndex:[indexPath row]];
@@ -78,7 +79,7 @@
         }
         UIButton *deleteLightButton  = [[UIButton alloc] initWithFrame:CGRectMake(706, 5, 44, 20)];
         [deleteLightButton setTitle:@"Delete" forState:UIControlStateNormal];
-        [deleteLightButton setFont:[UIFont systemFontOfSize:15]];
+        [deleteLightButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
         [deleteLightButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [deleteLightButton addTarget:self action:@selector(deleteLightRow:) forControlEvents:UIControlEventTouchUpInside];
         
@@ -91,7 +92,7 @@
     UIButton *editLightButton = [[UIButton alloc] initWithFrame:CGRectMake(644, 5, 30, 20)];
     [editLightButton setTitle:@"Edit" forState:UIControlStateNormal];
     [editLightButton addTarget:self action:@selector(editLightRow:) forControlEvents:UIControlEventTouchUpInside];
-    [editLightButton setFont:[UIFont systemFontOfSize:15]];
+    [editLightButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
     [editLightButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 
     [cell addSubview:editLightButton];
@@ -142,7 +143,8 @@
         [self.lightTableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
     } failure:^(NSString *error) {
-        NSLog(error);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:error delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
     }];
     
 }

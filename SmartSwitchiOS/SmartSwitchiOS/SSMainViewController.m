@@ -32,20 +32,23 @@
      (NSNumber *returnVal) {
          NSLog(@"State set for light: %d", returnVal.integerValue);
      } failure:^(NSString *failure) {
-         NSLog(failure);
+         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:failure delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+         [alert show];
      }];
     NSLog(@"Setting Switch");
     [[SSManager sharedInstance].dataHelper setState:@"SWITCH" forDevice:@"54ff6c066667515128301467" success:^(NSNumber *returnVal) {
         NSLog(@"State set for switch: %d", returnVal.integerValue);
     }failure:^(NSString *failure) {
-        NSLog(failure);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:failure delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
     }];
     NSLog(@"Setting Cores");
     [[SSManager sharedInstance].dataHelper setCores:^
      (NSNumber *returnVal) {
          NSLog(@"Set Cores: %d", returnVal.integerValue);
      }failure:^(NSString *failure) {
-         NSLog(failure);
+         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:failure delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+         [alert show];
      }];
 }
 
@@ -56,12 +59,7 @@
 }
 
 - (void)switchLight:(id)sender {
-    [[SSManager sharedInstance].dataHelper flipLight:^
-     (NSNumber *returnVal) {
-         NSLog(@"%d", returnVal.integerValue);
-     } failure:^(NSString *failure) {
-         NSLog(failure);
-     }];
+
 }
 
 /*

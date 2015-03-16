@@ -52,10 +52,25 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     self.nameField.text = self.core.name;
-    CALayer *bottomBorder = [CALayer layer];
-    bottomBorder.frame = CGRectMake(0.0f, self.nameField.frame.size.height - 1, self.nameField.frame.size.width, 1.0f);
-    bottomBorder.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1].CGColor;
-    [self.nameField.layer addSublayer:bottomBorder];
+    //CALayer *bottomBorderName = [CALayer layer];
+    //bottomBorderName.frame = CGRectMake(0.0f, self.nameField.frame.size.height - 1, self.nameField.frame.size.width, 1.0f);
+    //bottomBorderName.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1].CGColor;
+    //[self.nameField.layer addSublayer:bottomBorderName];
+    
+    CALayer *topBorderSave = [CALayer layer];
+    topBorderSave.frame = CGRectMake(0.0f, 0.0f, self.saveButton.frame.size.width, 1.0f);
+    topBorderSave.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0].CGColor;
+    [self.saveButton.layer addSublayer:topBorderSave];
+    
+    CALayer *topBorderCancel = [CALayer layer];
+    topBorderCancel.frame = CGRectMake(0.0f, 0.0f, self.cancelButton.frame.size.width, 1.0f);
+    topBorderCancel.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0].CGColor;
+    [self.cancelButton.layer addSublayer:topBorderCancel];
+    
+    CALayer *leftBorderSave = [CALayer layer];
+    leftBorderSave.frame = CGRectMake(0.0f, 0.0f, 1.0f, self.saveButton.frame.size.height);
+    leftBorderSave.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0].CGColor;
+    [self.saveButton.layer addSublayer:leftBorderSave];
 }
 
 /*

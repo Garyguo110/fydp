@@ -16,6 +16,7 @@
 @synthesize unclaimedLights;
 @synthesize unclaimedSwitches;
 @synthesize groups;
+@synthesize lightIds;
 
 + (SSManager *)sharedInstance {
     static SSManager *sharedSSManager = nil;
@@ -44,11 +45,13 @@
 - (id)init {
     if(self == [super init]) {
         dataHelper = [[DataHelper allocWithZone:nil] initWithBaseURL:[NSURL URLWithString:@"https://api.spark.io"]];
-        dataHelper.DEBUG_MODE = YES;
+        dataHelper.DEBUG_MODE = NO;
         unclaimedLights = [[NSMutableArray alloc] init];
         unclaimedSwitches = [[NSMutableArray alloc] init];
         unclaimedIds = [[NSMutableArray alloc] init];
         groups = [[NSMutableArray alloc] init];
+        
+        lightIds = [[NSArray alloc] initWithObjects:@"53ff6a066667574829572567",@"55ff74066678505506381367", @"54ff6c066667515128301467", nil];
     }
     return self;
 }

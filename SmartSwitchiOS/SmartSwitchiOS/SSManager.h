@@ -19,11 +19,10 @@
 @property (nonatomic, strong) NSMutableArray *unclaimedLights;
 @property (nonatomic, strong) NSMutableArray *unclaimedSwitches;
 @property (nonatomic, strong) NSMutableArray *groups;
+@property (nonatomic, strong) NSArray *lightIds;
 
 + (SSManager *) sharedInstance;
 - (UIView *)findSuperViewOf:(UIView *)view WithClass:(Class)superViewClass;
-- (SSCore *) getLightWithId:(NSString *)idString;
-- (void) changeNameForCore:(SSCore *)core to:(NSString *)newName;
 - (void) addCore:(SSCore *)core;
 - (void) removeCore:(SSCore *)core fromGroup:(SSGroup *)group;
 - (void) addCore:(SSCore *)core toGroup:(SSGroup *)group;

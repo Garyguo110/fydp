@@ -89,24 +89,25 @@ static DataHelper *sharedObject = nil;
     }
 }
 
-- (void)flipLight:(void (^)(NSNumber *))success failure:(void (^)(NSString *))failure {
+- (void)flipLight:(NSString *)coreId withCommand:(NSString *)command success:(void (^)(NSNumber *))success failure:(void (^)(NSString *))failure {
     if(DEBUG_MODE) {
         success([NSNumber numberWithInt:1]);
     } else {
-    NSDictionary *params = @{
-                             @"access_token": self.access_token
-                             };
-    
-    [self callMethod:@"POST" path:@"/v1/devices/54ff6d066672524816400167/flipLight" parameters:params notifyAuthenticationFailure:NO success:^
-     (NSInteger statusCode, id JSON) {
-         NSError *error;
-         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:JSON
-                                                              options:kNilOptions
-                                                                error:&error];
-         success([json objectForKey:@"return_value"]);
-     } failure:^(NSInteger statusCode, NSDictionary *dict) {
-         failure([dict[@"errors"] componentsJoinedByString:@" "]);
-     }];
+        NSDictionary *params = @{
+                                 @"access_token": self.access_token,
+                                 @"params": command
+                                 };
+        
+        [self callMethod:@"POST" path:[NSString stringWithFormat:@"/v1/devices/%@/flipLight", coreId] parameters:params notifyAuthenticationFailure:NO success:^
+         (NSInteger statusCode, id JSON) {
+             NSError *error;
+             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:JSON
+                                                                  options:kNilOptions
+                                                                    error:&error];
+             success([json objectForKey:@"return_value"]);
+         } failure:^(NSInteger statusCode, NSDictionary *dict) {
+             failure([dict[@"errors"] componentsJoinedByString:@" "]);
+         }];
     }
 }
 
@@ -150,6 +151,24 @@ static DataHelper *sharedObject = nil;
                   }failure:^(NSInteger statusCode, NSDictionary *dict) {
                       failure([dict[@"errors"] componentsJoinedByString:@" "]);
                   }];
+    }
+}
+
+- (void)getLightState:(NSString *)coreId success:(void (^)(NSNumber *))success failure:(void (^)(NSString *))failure {
+    if (DEBUG_MODE) {
+        success([NSNumber numberWithInt:1]);
+    } else {
+        NSDictionary *params = @{
+                               @"access_token": self.access_token
+                               };
+        [self callMethod:@"POST" path:[NSString stringWithFormat:@"v1/devices/%@/getLS", coreId] parameters:params notifyAuthenticationFailure:NO success:^
+         (NSInteger statusCode, id JSON) {
+             NSError *error;
+             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:JSON options:kNilOptions error:&error];
+             success([json objectForKey:@"return_value"]);
+         } failure:^(NSInteger statusCode, NSDictionary *dict) {
+             failure([dict[@"errors"] componentsJoinedByString:@" "]);
+         }];
     }
 }
 

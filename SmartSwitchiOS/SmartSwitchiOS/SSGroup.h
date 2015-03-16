@@ -14,6 +14,7 @@
 @property (nonatomic, strong) NSString *groupId;
 @property (nonatomic, strong) NSMutableArray* switches;
 @property (nonatomic, strong) NSMutableArray *lights;
+@property (nonatomic, assign) BOOL isOn;
 
 -(id)initWithName:(NSString *)name;
 
