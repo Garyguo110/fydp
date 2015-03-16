@@ -98,28 +98,31 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1D8-VM-DEr">
-                                            <rect key="frame" x="704" y="7" width="30" height="30"/>
-                                            <state key="normal" title="Delete" image="Cancel-50.png">
+                                            <rect key="frame" x="667" y="7" width="67" height="30"/>
+                                            <state key="normal" title="Delete">
+                                                <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
                                                 <action selector="deleteRow:" destination="pzl-ax-yIU" eventType="touchUpInside" id="gwc-06-eYr"/>
                                             </connections>
                                         </button>
+                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jq8-fm-Gf8">
+                                            <rect key="frame" x="474" y="7" width="83" height="30"/>
+                                            <state key="normal" title="Add Core">
+                                                <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                        </button>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AVe-wV-Utf">
-                                            <rect key="frame" x="650" y="7" width="30" height="30"/>
-                                            <state key="normal" title="Edit" image="Edit-50 (1).png">
+                                            <rect key="frame" x="591" y="7" width="43" height="30"/>
+                                            <state key="normal" title="Edit">
+                                                <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
                                                 <action selector="editRow:" destination="pzl-ax-yIU" eventType="touchUpInside" id="Rvb-ri-BHB"/>
                                             </connections>
-                                        </button>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jq8-fm-Gf8">
-                                            <rect key="frame" x="600" y="7" width="30" height="30"/>
-                                            <state key="normal" title="Add Core" image="Plus-50 (1).png">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
                                         </button>
                                     </subviews>
                                 </tableViewCellContentView>
@@ -157,7 +160,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fy9-2W-P9Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="692" y="-93.5"/>
+            <point key="canvasLocation" x="692" y="-94"/>
         </scene>
         <!--Light View Controller-->
         <scene sceneID="89v-bf-Nyj">
@@ -434,11 +437,6 @@
             <point key="canvasLocation" x="1713" y="-416"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="Cancel-50.png" width="50" height="50"/>
-        <image name="Edit-50 (1).png" width="50" height="50"/>
-        <image name="Plus-50 (1).png" width="50" height="50"/>
-    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
