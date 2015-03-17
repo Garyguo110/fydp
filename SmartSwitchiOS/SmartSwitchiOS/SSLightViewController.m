@@ -18,6 +18,8 @@
 @implementation SSLightViewController
 
 @synthesize isGroupOn;
+@synthesize group;
+@synthesize isLights;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -46,7 +48,7 @@
 }
 
 - (void)cancel:(id)sender {
-    [self.delegate didCancelSelectLightFrom:self];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)done:(id)sender {
@@ -56,7 +58,8 @@
         [alert show];
         return;
     }
-    [self.delegate didSelectLightFrom:self withCore:cell.core];
+    [[SSManager sharedInstance] addCore:cell.core toGroup:self.group];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Table view data source
@@ -64,13 +67,14 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 2;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    if(section == 0) {
+    if(!isLights) {
+        NSLog(@"%@", [SSManager sharedInstance].unclaimedSwitches);
         return [[SSManager sharedInstance].unclaimedSwitches count];
     } else  {
         return [[SSManager sharedInstance].unclaimedLights count];
@@ -84,7 +88,7 @@
     
     // Configure the cell...
     SSCore *core;
-    if (indexPath.section == 0) {
+    if (!isLights) {
         core = [[SSManager sharedInstance].unclaimedSwitches objectAtIndex:[indexPath row]];
     } else {
         core = [[SSManager sharedInstance].unclaimedLights objectAtIndex:[indexPath row]];
@@ -93,14 +97,6 @@
     [cell.nameLabel setText:core.name];
     
     return cell;
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if(section == 0) {
-        return @"Switches";
-    } else {
-        return @"Lights";
-    }
 }
 
 /*

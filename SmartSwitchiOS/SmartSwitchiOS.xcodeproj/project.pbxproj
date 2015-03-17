@@ -23,6 +23,9 @@
 		85C2F7581A3CF48300329C14 /* AFPropertyListRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 85C2F74E1A3CF48300329C14 /* AFPropertyListRequestOperation.m */; };
 		85C2F7591A3CF48300329C14 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 85C2F7501A3CF48300329C14 /* AFURLConnectionOperation.m */; };
 		85C2F75A1A3CF48300329C14 /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 85C2F7521A3CF48300329C14 /* AFXMLRequestOperation.m */; };
+		FF31DF161AB72066007CD1E1 /* SSGroupTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF31DF151AB72066007CD1E1 /* SSGroupTableViewController.m */; };
+		FF31DF191AB72375007CD1E1 /* SSGroupDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF31DF181AB72375007CD1E1 /* SSGroupDetailViewController.m */; };
+		FF31DF1C1AB78F7F007CD1E1 /* SSEditGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF31DF1B1AB78F7F007CD1E1 /* SSEditGroupViewController.m */; };
 		FF34DD4D1A8949C600A7544E /* SSManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FF34DD4C1A8949C600A7544E /* SSManager.m */; };
 		FF4F43511A9F935C00C5F163 /* SSAddDeviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF4F43501A9F935C00C5F163 /* SSAddDeviceViewController.m */; };
 		FF4F43541AA0AC7600C5F163 /* SSEditDeviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF4F43531AA0AC7600C5F163 /* SSEditDeviceViewController.m */; };
@@ -83,6 +86,12 @@
 		85C2F7501A3CF48300329C14 /* AFURLConnectionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLConnectionOperation.m; sourceTree = "<group>"; };
 		85C2F7511A3CF48300329C14 /* AFXMLRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFXMLRequestOperation.h; sourceTree = "<group>"; };
 		85C2F7521A3CF48300329C14 /* AFXMLRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFXMLRequestOperation.m; sourceTree = "<group>"; };
+		FF31DF141AB72066007CD1E1 /* SSGroupTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSGroupTableViewController.h; sourceTree = "<group>"; };
+		FF31DF151AB72066007CD1E1 /* SSGroupTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSGroupTableViewController.m; sourceTree = "<group>"; };
+		FF31DF171AB72375007CD1E1 /* SSGroupDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSGroupDetailViewController.h; sourceTree = "<group>"; };
+		FF31DF181AB72375007CD1E1 /* SSGroupDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSGroupDetailViewController.m; sourceTree = "<group>"; };
+		FF31DF1A1AB78F7F007CD1E1 /* SSEditGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSEditGroupViewController.h; sourceTree = "<group>"; };
+		FF31DF1B1AB78F7F007CD1E1 /* SSEditGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSEditGroupViewController.m; sourceTree = "<group>"; };
 		FF34DD4B1A8949C600A7544E /* SSManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSManager.h; sourceTree = "<group>"; };
 		FF34DD4C1A8949C600A7544E /* SSManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSManager.m; sourceTree = "<group>"; };
 		FF4F434F1A9F935C00C5F163 /* SSAddDeviceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSAddDeviceViewController.h; sourceTree = "<group>"; };
@@ -185,6 +194,12 @@
 				FFC5AC381AA6211B009FA444 /* SSGroup.m */,
 				FFC5AC3A1AA786E4009FA444 /* SSAddGroupViewController.h */,
 				FFC5AC3B1AA786E4009FA444 /* SSAddGroupViewController.m */,
+				FF31DF141AB72066007CD1E1 /* SSGroupTableViewController.h */,
+				FF31DF151AB72066007CD1E1 /* SSGroupTableViewController.m */,
+				FF31DF171AB72375007CD1E1 /* SSGroupDetailViewController.h */,
+				FF31DF181AB72375007CD1E1 /* SSGroupDetailViewController.m */,
+				FF31DF1A1AB78F7F007CD1E1 /* SSEditGroupViewController.h */,
+				FF31DF1B1AB78F7F007CD1E1 /* SSEditGroupViewController.m */,
 			);
 			path = SmartSwitchiOS;
 			sourceTree = "<group>";
@@ -354,6 +369,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FFC5AC391AA6211B009FA444 /* SSGroup.m in Sources */,
+				FF31DF161AB72066007CD1E1 /* SSGroupTableViewController.m in Sources */,
 				85C2F7591A3CF48300329C14 /* AFURLConnectionOperation.m in Sources */,
 				FFEBDF5B1A9E4A57002E3AC1 /* SSSwitchTableViewCell.m in Sources */,
 				85C2F7561A3CF48300329C14 /* AFImageRequestOperation.m in Sources */,
@@ -365,6 +381,7 @@
 				85C2F75A1A3CF48300329C14 /* AFXMLRequestOperation.m in Sources */,
 				85C2F7531A3CF48300329C14 /* AFAmazonS3Client.m in Sources */,
 				85C2F71D1A3CD76100329C14 /* AppDelegate.m in Sources */,
+				FF31DF191AB72375007CD1E1 /* SSGroupDetailViewController.m in Sources */,
 				85C2F7571A3CF48300329C14 /* AFJSONRequestOperation.m in Sources */,
 				85C2F71A1A3CD76100329C14 /* main.m in Sources */,
 				FFC5AC3C1AA786E4009FA444 /* SSAddGroupViewController.m in Sources */,
@@ -375,6 +392,7 @@
 				85C2F7541A3CF48300329C14 /* AFHTTPClient.m in Sources */,
 				85C2F7581A3CF48300329C14 /* AFPropertyListRequestOperation.m in Sources */,
 				85C2F7551A3CF48300329C14 /* AFHTTPRequestOperation.m in Sources */,
+				FF31DF1C1AB78F7F007CD1E1 /* SSEditGroupViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -329,7 +329,7 @@
         UINavigationController *navController = segue.destinationViewController;
         SSLightViewController *lightController = [navController viewControllers][0];
         lightController.isGroupOn = isGroupOn;
-        lightController.delegate = self;
+        //lightController.delegate = self;
     }
     if([segue.identifier isEqualToString:@"editDevice"]) {
         SSEditDeviceViewController *edvc = segue.destinationViewController;

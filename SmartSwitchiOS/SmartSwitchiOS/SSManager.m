@@ -45,13 +45,24 @@
 - (id)init {
     if(self == [super init]) {
         dataHelper = [[DataHelper allocWithZone:nil] initWithBaseURL:[NSURL URLWithString:@"https://api.spark.io"]];
-        dataHelper.DEBUG_MODE = NO;
+        dataHelper.DEBUG_MODE = YES;
         unclaimedLights = [[NSMutableArray alloc] init];
         unclaimedSwitches = [[NSMutableArray alloc] init];
         unclaimedIds = [[NSMutableArray alloc] init];
         groups = [[NSMutableArray alloc] init];
         
-        lightIds = [[NSArray alloc] initWithObjects:@"53ff6a066667574829572567",@"55ff74066678505506381367", @"54ff6c066667515128301467", nil];
+        lightIds =  dataHelper.DEBUG_MODE ? [[NSArray alloc] initWithObjects:@"MC35751266MR",
+                                             @"MC33351266MR",
+                                             @"MC3DE51266ML",
+                                             @"MC46751266ML",
+                                             @"MC08E51276MR",
+                                             @"MC11651276MR",
+                                             @"MC1EA51276MR",
+                                             @"MC11A51276MR",
+                                             @"MC3C151276ML",
+                                             @"MC38A51276MR",
+                                             @"MC44251276MR",
+                                             @"MS1B851236MR", nil] : [[NSArray alloc] initWithObjects:@"53ff6a066667574829572567",@"55ff74066678505506381367", @"54ff6c066667515128301467", nil];
     }
     return self;
 }
@@ -106,7 +117,18 @@
     }
     ids = [ids filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"NOT(SELF IN %@)", [unclaimedSwitches valueForKeyPath:@"deviceId"]]];
     ids = [ids filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"NOT(SELF IN %@)", [unclaimedLights valueForKeyPath:@"deviceId"]]];
+
     unclaimedIds = ids;
+    
+    for (NSString *deviceId in unclaimedIds) {
+        if ([lightIds containsObject:deviceId]) {
+            SSCore *core = [[SSCore alloc] initWithName:deviceId deviceId:deviceId switch:NO];
+            [unclaimedLights addObject:core];
+        } else {
+            SSCore *core = [[SSCore alloc] initWithName:deviceId deviceId:deviceId switch:YES];
+            [unclaimedSwitches addObject:core];
+        }
+    }
 }
 
 - (void)saveData {

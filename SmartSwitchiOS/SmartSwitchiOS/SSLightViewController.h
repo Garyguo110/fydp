@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SSCore.h"
+#import "SSGroup.h";
 
 @class SSLightViewController;
 
@@ -18,8 +19,9 @@
 
 @interface SSLightViewController : UITableViewController
 
-@property (nonatomic, weak) id <SSLightViewControllerDelegate> delegate;
+@property (nonatomic, strong) SSGroup *group;
 @property (nonatomic, assign) BOOL isGroupOn;
+@property (nonatomic, assign) BOOL isLights;
 
 - (IBAction)cancel:(id)sender;
 - (IBAction)done:(id)sender;

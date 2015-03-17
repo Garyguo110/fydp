@@ -8,6 +8,9 @@
 
 #import "AppDelegate.h"
 #import "SSManager.h"
+#import "SSGroupTableViewController.h"
+#import "SSGroupDetailViewController.h"
+#import "SSManager.h"
 
 @interface AppDelegate ()
 
@@ -18,7 +21,24 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    //[[SSManager sharedInstance] loadData];
+    [[SSManager sharedInstance] loadData];
+    UISplitViewController *svc = (UISplitViewController *)self.window.rootViewController;
+    UINavigationController *leftNavController = [svc.viewControllers objectAtIndex:0];
+    SSGroupTableViewController *gtvc = (SSGroupTableViewController *)[leftNavController topViewController];
+    UINavigationController *rightNavController = [svc.viewControllers objectAtIndex:1];
+    SSGroupDetailViewController *gdvc = (SSGroupDetailViewController *)[rightNavController topViewController];
+    
+    gtvc.delegate = gdvc;
+    
+    [[SSManager sharedInstance].dataHelper getDevices:^(NSArray *ids) {
+        [[SSManager sharedInstance] setUnclaimedIds:ids];
+    } failure:^(NSString *error) {
+        NSLog(error);
+    }];
+    
+    if ([[SSManager sharedInstance] groups].count > 0) {
+        [gdvc setGroupValue:[[SSManager sharedInstance].groups objectAtIndex:0]];
+    }
     return YES;
 }
 
