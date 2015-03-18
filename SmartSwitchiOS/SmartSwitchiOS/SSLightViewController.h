@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "SSCore.h"
-#import "SSGroup.h";
+#import "SSGroup.h"
+#import "SSEditGroupViewController.h";
 
 @class SSLightViewController;
 
@@ -22,6 +23,7 @@
 @property (nonatomic, strong) SSGroup *group;
 @property (nonatomic, assign) BOOL isGroupOn;
 @property (nonatomic, assign) BOOL isLights;
+@property (nonatomic, strong) SSEditGroupViewController *editController;
 
 - (IBAction)cancel:(id)sender;
 - (IBAction)done:(id)sender;

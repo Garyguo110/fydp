@@ -41,6 +41,7 @@
 }
 
 - (void)selectedGroup:(SSGroup *)group {
+    [self setGroupValue:group];
     [self refreshView];
 }
 
@@ -66,6 +67,9 @@
 - (void)editGroup:(id)sender {
     [self performSegueWithIdentifier:@"EditGroup" sender:sender];
 }
+
+
+#pragma mark LightViewControllerDelegate;
 
 #pragma mark TableView Delgate and DataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -145,9 +149,17 @@
         SSLightViewController *lvc = segue.destinationViewController;
         lvc.group = self.group;
         lvc.isLights = isAddLight;
-    } else if ([segue.identifier isEqualToString:@"EditCore"]) {
-        SSEditGroupViewController *egvc = segue.destinationViewController;
-        egvc.group = group;
+    } else if ([segue.identifier isEqualToString:@"EditGroup"]) {
+        SSEditGroupViewController *egvc = (SSEditGroupViewController *)segue.destinationViewController;
+        egvc.tempName = group.name;
+        for (SSCore *core in group.switches) {
+            core.tempName = core.name;
+        }
+        for (SSCore *core in group.lights) {
+            core.tempName = core.name;
+        }
+        egvc.tempSwitches = [NSMutableArray arrayWithArray:group.switches];
+        egvc.tempLights = [NSMutableArray arrayWithArray:group.lights];
     }
 }
 

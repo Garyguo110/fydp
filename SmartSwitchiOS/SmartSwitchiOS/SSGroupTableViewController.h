@@ -16,7 +16,7 @@
 
 @end
 
-@interface SSGroupTableViewController : UITableViewController
+@interface SSGroupTableViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, assign) id<GroupSelectionDelegate> delegate;
 

@@ -12,6 +12,7 @@
 
 @synthesize isSwitch;
 @synthesize deviceId;
+@synthesize tempName;
 @synthesize name;
 
 -(id)init {

@@ -13,6 +13,7 @@
 @property (nonatomic, assign) BOOL isSwitch;
 @property (nonatomic, strong) NSString *deviceId;
 @property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *tempName;
 
 - (id)initWithName:(NSString *)name deviceId:(NSString *)deviceId switch:(BOOL)isSwitch;
 

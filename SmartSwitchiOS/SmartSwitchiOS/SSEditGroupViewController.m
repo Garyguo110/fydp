@@ -7,22 +7,29 @@
 //
 
 #import "SSEditGroupViewController.h"
+#import "SSManager.h"
+#import "SSLightViewController.h"
 
 @interface SSEditGroupViewController ()
 
 @end
 
 @implementation SSEditGroupViewController {
-    NSString *tempName;
-    NSMutableArray *tempSwitches;
-    NSMutableArray *tempLights;
+    BOOL isAddLight;
 }
 
 @synthesize group;
+@synthesize tempLights;
+@synthesize tempSwitches;
+@synthesize tempName;
+@synthesize editTableView;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.nameField.text = tempName;
+    self.nameField.delegate = self;
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -31,11 +38,44 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    self.nameField.text = group.name;
+    self.nameField.text = tempName;
+}
+
+- (void)addSwitch:(id)sender {
+    isAddLight = NO;
+    [self performSegueWithIdentifier:@"AddCore" sender:sender];
+}
+
+- (void)addLight:(id)sender {
+    isAddLight = YES;
+    [self performSegueWithIdentifier:@"AddCore" sender:sender];
+}
+
+#pragma mark UITextField delegate
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    if (textField.tag == 1) {
+        UITableViewCell *cell = (UITableViewCell *)[[SSManager sharedInstance] findSuperViewOf:textField WithClass:UITableViewCell.class];
+        
+        NSIndexPath *ip = [self.editTableView indexPathForCell:cell];
+        if (ip.section == 0) {
+            [[tempSwitches objectAtIndex:ip.row] setTempName:textField.text];
+        } else {
+            [[tempLights objectAtIndex:ip.row] setTempName:textField.text];
+        }
+    } else if (textField.tag == 2) {
+        tempName = textField.text;
+    }
     
-    tempName = group.name;
-    tempSwitches = [NSMutableArray arrayWithArray:group.switches];
-    tempLights = [NSMutableArray arrayWithArray:group.lights];
+}
+
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
+    if ([textField.text isEqualToString:@""]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Name" message:@"Name can not be empty" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        return NO;
+    }
+    return YES;
 }
 
 #pragma mark UITableView delegate and datasource
@@ -56,10 +96,12 @@
     
     UITextField *coreNameField = (UITextField *)[cell viewWithTag:1];
     if (indexPath.section == 0) {
-        coreNameField.text = [[tempSwitches objectAtIndex:indexPath.row] name];
+        coreNameField.text = [[tempSwitches objectAtIndex:indexPath.row] tempName];
     } else {
-        coreNameField.text = [[tempLights objectAtIndex:indexPath.row] name];
+        coreNameField.text = [[tempLights objectAtIndex:indexPath.row] tempName];
     }
+    
+    [coreNameField setDelegate:self];
     
     return cell;
     
@@ -99,14 +141,20 @@
     return 44;
 }
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([segue.identifier isEqualToString:@"AddCore"]) {
+        SSLightViewController *lvc = segue.destinationViewController;
+        lvc.group = self.group;
+        lvc.isLights = isAddLight;
+        lvc.editController = self;
+    }
 }
-*/
+
 
 @end

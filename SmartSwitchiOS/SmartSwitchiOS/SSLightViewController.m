@@ -20,6 +20,7 @@
 @synthesize isGroupOn;
 @synthesize group;
 @synthesize isLights;
+@synthesize editController;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -58,7 +59,12 @@
         [alert show];
         return;
     }
-    [[SSManager sharedInstance] addCore:cell.core toGroup:self.group];
+    cell.core.tempName = cell.core.name;
+    if ([cell.core isSwitch]) {
+        [editController.tempSwitches addObject:cell.core];
+    } else {
+        [editController.tempLights addObject:cell.core];
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 

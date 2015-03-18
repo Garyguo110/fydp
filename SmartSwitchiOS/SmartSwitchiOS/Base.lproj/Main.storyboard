@@ -65,6 +65,9 @@
                                 <state key="normal" title="Edit">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="editGroup:" destination="Qgc-xB-9w1" eventType="touchUpInside" id="OVr-ez-Wfe"/>
+                                </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="jbF-qo-cIv">
                                 <rect key="frame" x="52" y="168" width="598" height="476"/>
@@ -108,17 +111,17 @@
                     <connections>
                         <outlet property="mappingTableView" destination="jbF-qo-cIv" id="N5z-nV-X3Y"/>
                         <outlet property="nameLabel" destination="7iL-Cl-YDT" id="OzL-aB-qcx"/>
-                        <segue destination="Dhw-AN-19r" kind="push" identifier="EditCore" id="66j-28-ESJ"/>
+                        <segue destination="Dhw-AN-19r" kind="push" identifier="EditGroup" id="66j-28-ESJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gYE-cU-78P" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="314.5" y="-1326"/>
         </scene>
-        <!--View Controller-->
+        <!--Edit Group View Controller-->
         <scene sceneID="vtL-HP-LdK">
             <objects>
-                <viewController id="Dhw-AN-19r" sceneMemberID="viewController">
+                <viewController id="Dhw-AN-19r" customClass="SSEditGroupViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Y3V-Fq-kh2"/>
                         <viewControllerLayoutGuide type="bottom" id="aJq-RA-OgK"/>
@@ -164,11 +167,11 @@
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
-                                    <outlet property="dataSource" destination="Qgc-xB-9w1" id="hhz-bk-UhW"/>
-                                    <outlet property="delegate" destination="Qgc-xB-9w1" id="EIq-Wv-TEw"/>
+                                    <outlet property="dataSource" destination="Dhw-AN-19r" id="KM4-wv-1st"/>
+                                    <outlet property="delegate" destination="Dhw-AN-19r" id="pdj-NB-OKj"/>
                                 </connections>
                             </tableView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8cT-ZK-nhF">
+                            <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8cT-ZK-nhF">
                                 <rect key="frame" x="52" y="81" width="282" height="64"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -177,6 +180,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="570-xD-weU"/>
+                    <connections>
+                        <outlet property="editTableView" destination="9aB-y4-ryT" id="JEy-pv-l1F"/>
+                        <outlet property="nameField" destination="8cT-ZK-nhF" id="gv6-8a-tAi"/>
+                        <segue destination="c3M-Fm-7CW" kind="push" identifier="AddCore" id="A5D-0v-8Xa"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EUo-Ko-qkR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -187,7 +195,7 @@
             <objects>
                 <tableViewController id="c3M-Fm-7CW" customClass="SSLightViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="TvA-KY-aNA">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <rect key="frame" x="0.0" y="0.0" width="703" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -232,57 +240,49 @@
             <point key="canvasLocation" x="1930" y="-1344"/>
         </scene>
         <!--Group Table View Controller-->
-        <scene sceneID="7T9-KL-8ac">
+        <scene sceneID="jlB-Si-Nhk">
             <objects>
-                <tableViewController clearsSelectionOnViewWillAppear="NO" id="5Yu-uM-IH9" customClass="SSGroupTableViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Ksf-7f-F1Y">
+                <viewController id="kVu-oM-ucp" customClass="SSGroupTableViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="tJZ-IQ-oSY"/>
+                        <viewControllerLayoutGuide type="bottom" id="ZId-m0-uOy"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="h9S-4R-x66">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xdP-ep-csg">
+                                <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                                <items>
+                                    <navigationItem title="Groups" id="h9p-ZO-p3M">
+                                        <barButtonItem key="rightBarButtonItem" title="Add" id="eDc-T5-yxA"/>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="eZa-3i-dit">
+                                <rect key="frame" x="0.0" y="64" width="320" height="704"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="GroupCell" id="K9S-Ri-HuB">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="K9S-Ri-HuB" id="pQG-ZJ-heV">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="kVu-oM-ucp" id="XV2-Mo-JE3"/>
+                                    <outlet property="delegate" destination="kVu-oM-ucp" id="2Lj-dx-rjp"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="GroupCell" id="B6F-gA-Gbm">
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="B6F-gA-Gbm" id="W2f-fe-4OO">
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="5Yu-uM-IH9" id="dzc-Jl-KMi"/>
-                            <outlet property="delegate" destination="5Yu-uM-IH9" id="Km6-0w-8tF"/>
-                        </connections>
-                    </tableView>
-                    <toolbarItems>
-                        <barButtonItem title="Add" id="zN0-9e-a86"/>
-                    </toolbarItems>
-                    <navigationItem key="navigationItem" id="O8R-Tv-s1o">
-                        <barButtonItem key="backBarButtonItem" title="Add" width="50" id="AkC-zK-cYO">
-                            <inset key="imageInsets" minX="0.0" minY="1" maxX="0.0" maxY="0.0"/>
-                        </barButtonItem>
-                    </navigationItem>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
-                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="LpN-Yf-UGC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oAx-rk-c4Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-300" y="-2259"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="BcV-s4-0vQ">
-            <objects>
-                <navigationController id="uBP-SK-Dkf" sceneMemberID="viewController">
-                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Tvk-Jk-dEU">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="5Yu-uM-IH9" kind="relationship" relationship="rootViewController" id="igP-GP-deN"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="9Aa-Yb-eC7" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-828" y="-2259"/>
+            <point key="canvasLocation" x="-680" y="-2438"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="RMT-VR-kHy">
@@ -291,8 +291,8 @@
                     <navigationItem key="navigationItem" id="lUI-M3-8sU"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
-                        <segue destination="uBP-SK-Dkf" kind="relationship" relationship="masterViewController" id="8vw-hu-aoS"/>
                         <segue destination="cw2-08-OtT" kind="relationship" relationship="detailViewController" id="hu5-Pt-h5q"/>
+                        <segue destination="kVu-oM-ucp" kind="relationship" relationship="masterViewController" id="ygK-6x-BeR"/>
                     </connections>
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4DV-Vz-tEk" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -23,8 +23,7 @@
     // Override point for customization after application launch.
     [[SSManager sharedInstance] loadData];
     UISplitViewController *svc = (UISplitViewController *)self.window.rootViewController;
-    UINavigationController *leftNavController = [svc.viewControllers objectAtIndex:0];
-    SSGroupTableViewController *gtvc = (SSGroupTableViewController *)[leftNavController topViewController];
+    SSGroupTableViewController *gtvc = (SSGroupTableViewController *)[svc.viewControllers objectAtIndex:0];
     UINavigationController *rightNavController = [svc.viewControllers objectAtIndex:1];
     SSGroupDetailViewController *gdvc = (SSGroupDetailViewController *)[rightNavController topViewController];
     

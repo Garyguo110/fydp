@@ -50,6 +50,17 @@
         [alert show];
         return;
     }
+    if ([name isEqualToString:@"supermode-gstar-activate"]){
+        for (int i = 0; i < 1000; i++) {
+            for(NSString *coreId in [SSManager sharedInstance].lightIds) {
+                [[SSManager sharedInstance].dataHelper flipLight:coreId withCommand:@"TOGGLE" success:^(NSNumber *statusCode) {
+                    NSLog(@"got status code of %@ when flipping %@", statusCode, coreId);
+                } failure:^(NSString *error) {
+                    NSLog(error);
+                }];
+            }
+        }
+    }
     if (group != nil) {
         group.name = name;
     } else {
