@@ -18,9 +18,10 @@
 @property (nonatomic, weak) IBOutlet UIButton *deleteButton;
 @property (nonatomic, strong) IBOutlet UITableView *lightTableView;
 @property (nonatomic, assign) BOOL isUnclaimedCell;
-
+@property (nonatomic, strong) IBOutlet UISwitch *isOn;
 
 - (IBAction)editLightRow:(id)sender;
 - (IBAction)deleteLightRow:(id)sender;
+- (IBAction)switchChanged:(id)sender;
 
 @end

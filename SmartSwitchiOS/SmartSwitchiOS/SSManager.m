@@ -51,7 +51,7 @@
         unclaimedIds = [[NSMutableArray alloc] init];
         groups = [[NSMutableArray alloc] init];
         
-        lightIds = [[NSArray alloc] initWithObjects:@"53ff6a066667574829572567",@"55ff74066678505506381367", @"54ff6c066667515128301467", nil];
+        lightIds = [[NSArray alloc] initWithObjects:@"53ff6a066667574829572567",@"55ff74066678505506381367", nil];
     }
     return self;
 }

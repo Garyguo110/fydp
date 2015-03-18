@@ -84,12 +84,15 @@
 }
 
 - (void)cancelAddDevice:(id)sender {
-    NSString *deviceId = [[SSManager sharedInstance].unclaimedIds objectAtIndex:selectedIndex.row];
-    [[SSManager sharedInstance].dataHelper flipLight:deviceId withCommand:@"OFF" success:^(NSNumber *statusCode) {
-        NSLog(@"Got statuscode %@ when flipping %@", statusCode, deviceId);
-    } failure:^(NSString *error) {
-        NSLog(error);
-    }];
+    if ([SSManager sharedInstance].unclaimedIds.count > 0) {
+        NSString *deviceId = [[SSManager sharedInstance].unclaimedIds objectAtIndex:selectedIndex.row];
+        [[SSManager sharedInstance].dataHelper flipLight:deviceId withCommand:@"OFF" success:^(NSNumber *statusCode) {
+            NSLog(@"Got statuscode %@ when flipping %@", statusCode, deviceId);
+        } failure:^(NSString *error) {
+            NSLog(error);
+        }];
+    }
+
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

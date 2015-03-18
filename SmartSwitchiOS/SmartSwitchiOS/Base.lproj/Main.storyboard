@@ -124,12 +124,16 @@
                                                 <action selector="editRow:" destination="pzl-ax-yIU" eventType="touchUpInside" id="Rvb-ri-BHB"/>
                                             </connections>
                                         </button>
+                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dCv-tx-Kab">
+                                            <rect key="frame" x="398" y="6" width="51" height="31"/>
+                                        </switch>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="addLightButton" destination="Jq8-fm-Gf8" id="Wpe-QP-1va"/>
                                     <outlet property="deleteButton" destination="1D8-VM-DEr" id="tm5-fr-ihh"/>
                                     <outlet property="editButton" destination="AVe-wV-Utf" id="Ui7-kR-giP"/>
+                                    <outlet property="isOn" destination="dCv-tx-Kab" id="Gkr-sc-s9q"/>
                                     <outlet property="nameLabel" destination="bK2-1T-zzO" id="Ulr-Km-kAy"/>
                                 </connections>
                             </tableViewCell>

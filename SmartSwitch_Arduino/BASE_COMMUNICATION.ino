@@ -12,6 +12,7 @@ int switchState = 0;
 char state[10];
 char groupId[50];
 char a[1];
+char mode[5];
 
 void setup() {
   Spark.variable("lightState", &lightState, INT);
@@ -100,7 +101,7 @@ int flipLight(String command)
 {
   String st = state;
   if(command == "TOGGLE") {
-    if(state == "LIGHT") {
+    if(st == "LIGHT") {
       if( lightState == 0 ){
         digitalWrite(power, HIGH);
         digitalWrite(output1, HIGH);
@@ -128,7 +129,9 @@ int flipLight(String command)
       lightState = 1;
       return 1;
     }
-  } else return -2;
+  } else if (command == "DIM") {
+    strcpy(mode, command.c_str());
+    }  else return -2;
 }
 
 int getLS(String command) {

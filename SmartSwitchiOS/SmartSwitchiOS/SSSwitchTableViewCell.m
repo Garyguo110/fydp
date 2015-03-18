@@ -37,6 +37,17 @@
     // Configure the view for the selected state
 }
 
+- (void)switchChanged:(id)sender {
+    for (SSCore *core in group.lights) {
+        NSString *command = self.isOn.isOn ? @"ON" : @"OFF";
+        [[SSManager sharedInstance].dataHelper flipLight:core.deviceId withCommand:command success:^(NSNumber *statusCode) {
+            NSLog(@"Got status %@ when flipping light %@", statusCode, core.deviceId);
+        } failure:^(NSString *error) {
+            NSLog(error);
+        }];
+    }
+}
+
 #pragma mark - Table View
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if(isUnclaimedCell) {

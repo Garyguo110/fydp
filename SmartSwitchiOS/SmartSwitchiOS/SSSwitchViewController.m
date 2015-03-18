@@ -55,6 +55,13 @@
     [self.view addSubview:spinnerView];
     [spinnerView setHidden:YES];
     
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    self.refreshControl.backgroundColor = [UIColor whiteColor];
+    self.refreshControl.tintColor = [UIColor lightGrayColor];
+    [self.refreshControl addTarget:self
+                            action:@selector(reloadTableView:)
+                  forControlEvents:UIControlEventValueChanged];
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -119,6 +126,7 @@
 
 - (void)reloadTableView:(id)sender {
     [self.tableView reloadData];
+    [self.refreshControl endRefreshing];
 }
 
 - (void)editLightCore:(NSNotification *)notification {
@@ -233,6 +241,20 @@
         cell.lightTableView.allowsMultipleSelectionDuringEditing = NO;
         cell.lightTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [cell addSubview:cell.lightTableView];
+        [cell.isOn addTarget:cell action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
+        if (cell.group.lights.count > 0) {
+            [[SSManager sharedInstance].dataHelper getLightState:[[cell.group.lights objectAtIndex:0] deviceId] success:^(NSNumber *lightState) {
+                if (lightState.integerValue == 1) {
+                    [cell.isOn setOn:YES animated:YES];
+                } else {
+                    [cell.isOn setOn:NO animated:YES];
+                }
+            } failure:^(NSString *error) {
+                NSLog(error);
+            }];
+        } else {
+            [cell.isOn setOn:NO animated:YES];
+        }
         
     
     //int i = 1;
