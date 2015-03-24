@@ -53,7 +53,13 @@
 }
 
 - (BOOL)isEditing {
+    NSLog(@"%@", self.navigationController.visibleViewController.class);
     return self.navigationController.visibleViewController != self;
+}
+
+- (BOOL)isSaving {
+    NSLog(@"%@", self.navigationController.visibleViewController.class);
+    return self.navigationController.visibleViewController.class == UIViewController.class;
 }
 
 - (void)showDetails {
@@ -63,9 +69,21 @@
 }
 
 - (void)refreshView {
-    nameLabel.text = group.name;
-    [mappingTableView reloadData];
-    [isOn setOn:group.isOn animated:YES];
+    if (group != nil) {
+        nameLabel.text = group.name;
+        [mappingTableView reloadData];
+        [isOn setOn:group.isOn animated:YES];
+        isOn.hidden = NO;
+        editButton.title = @"Edit";
+        [editButton setEnabled:YES];
+        
+    } else {
+        nameLabel.text = @"";
+        isOn.hidden = YES;
+        editButton.title = @"";
+        [editButton setEnabled:NO];
+    }
+    
 }
 
 - (void)addLight:(id)sender {

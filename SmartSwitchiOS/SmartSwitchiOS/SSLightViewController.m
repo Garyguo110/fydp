@@ -15,12 +15,15 @@
 
 @end
 
-@implementation SSLightViewController
+@implementation SSLightViewController {
+    NSIndexPath *selectedIndex;
+}
 
 @synthesize isGroupOn;
 @synthesize group;
 @synthesize isLights;
 @synthesize editController;
+@synthesize availableCores;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -49,6 +52,12 @@
 }
 
 - (void)cancel:(id)sender {
+    NSString *deviceId = [[availableCores objectAtIndex:selectedIndex.row] deviceId];
+    [[SSManager sharedInstance].dataHelper flipLight:deviceId withCommand:@"OFF" success:^(NSNumber *statusCode) {
+        NSLog(@"got status code of %@ when flipping %@", statusCode, deviceId);
+    } failure:^(NSString *error) {
+        NSLog(error);
+    }];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -59,6 +68,12 @@
         [alert show];
         return;
     }
+    NSString *deviceId = [[availableCores objectAtIndex:selectedIndex.row] deviceId];
+    [[SSManager sharedInstance].dataHelper flipLight:deviceId withCommand:@"OFF" success:^(NSNumber *statusCode) {
+        NSLog(@"got status code of %@ when flipping %@", statusCode, deviceId);
+    } failure:^(NSString *error) {
+        NSLog(error);
+    }];
     cell.core.tempName = cell.core.name;
     if ([cell.core isSwitch]) {
         [editController.tempSwitches addObject:cell.core];
@@ -79,12 +94,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    if(!isLights) {
-        NSLog(@"%@", [SSManager sharedInstance].unclaimedSwitches);
-        return [[SSManager sharedInstance].unclaimedSwitches count];
-    } else  {
-        return [[SSManager sharedInstance].unclaimedLights count];
-    }
+    return availableCores.count;
 }
 
 
@@ -93,17 +103,32 @@
     SSCoreTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LightCell" forIndexPath:indexPath];
     
     // Configure the cell...
-    SSCore *core;
-    if (!isLights) {
-        core = [[SSManager sharedInstance].unclaimedSwitches objectAtIndex:[indexPath row]];
-    } else {
-        core = [[SSManager sharedInstance].unclaimedLights objectAtIndex:[indexPath row]];
-    }
+    SSCore *core = [availableCores objectAtIndex:indexPath.row];
     cell.core  = core;
     [cell.nameLabel setText:core.name];
     
     return cell;
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *deviceId;
+    if (selectedIndex != nil) {
+        deviceId = [[availableCores objectAtIndex:selectedIndex.row] deviceId];
+        [[SSManager sharedInstance].dataHelper flipLight:deviceId withCommand:@"OFF" success:^(NSNumber *statusCode) {
+            NSLog(@"got status code of %@ when flipping %@", statusCode, deviceId);
+        } failure:^(NSString *error) {
+            NSLog(error);
+        }];
+    }
+    selectedIndex = indexPath;
+    deviceId = [[availableCores objectAtIndex:selectedIndex.row] deviceId];
+    [[SSManager sharedInstance].dataHelper flipLight:deviceId withCommand:@"ON" success:^(NSNumber *statusCode) {
+        NSLog(@"got status code of %@ when flipping %@", statusCode, deviceId);
+    } failure:^(NSString *error) {
+        NSLog(error);
+    }];
+}
+
 
 /*
 // Override to support conditional editing of the table view.

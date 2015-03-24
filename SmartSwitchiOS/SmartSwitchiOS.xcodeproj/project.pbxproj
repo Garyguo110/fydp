@@ -24,6 +24,7 @@
 		85C2F7591A3CF48300329C14 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 85C2F7501A3CF48300329C14 /* AFURLConnectionOperation.m */; };
 		85C2F75A1A3CF48300329C14 /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 85C2F7521A3CF48300329C14 /* AFXMLRequestOperation.m */; };
 		FF122B4B1AC084AF00435A65 /* SSGroupTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FF122B4A1AC084AF00435A65 /* SSGroupTableViewCell.m */; };
+		FF122B4E1AC1361300435A65 /* SSLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF122B4D1AC1361300435A65 /* SSLoadingViewController.m */; };
 		FF31DF161AB72066007CD1E1 /* SSGroupTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF31DF151AB72066007CD1E1 /* SSGroupTableViewController.m */; };
 		FF31DF191AB72375007CD1E1 /* SSGroupDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF31DF181AB72375007CD1E1 /* SSGroupDetailViewController.m */; };
 		FF31DF1C1AB78F7F007CD1E1 /* SSEditGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF31DF1B1AB78F7F007CD1E1 /* SSEditGroupViewController.m */; };
@@ -92,6 +93,8 @@
 		85C2F7521A3CF48300329C14 /* AFXMLRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFXMLRequestOperation.m; sourceTree = "<group>"; };
 		FF122B491AC084AF00435A65 /* SSGroupTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSGroupTableViewCell.h; sourceTree = "<group>"; };
 		FF122B4A1AC084AF00435A65 /* SSGroupTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSGroupTableViewCell.m; sourceTree = "<group>"; };
+		FF122B4C1AC1361300435A65 /* SSLoadingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSLoadingViewController.h; sourceTree = "<group>"; };
+		FF122B4D1AC1361300435A65 /* SSLoadingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSLoadingViewController.m; sourceTree = "<group>"; };
 		FF31DF141AB72066007CD1E1 /* SSGroupTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSGroupTableViewController.h; sourceTree = "<group>"; };
 		FF31DF151AB72066007CD1E1 /* SSGroupTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSGroupTableViewController.m; sourceTree = "<group>"; };
 		FF31DF171AB72375007CD1E1 /* SSGroupDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSGroupDetailViewController.h; sourceTree = "<group>"; };
@@ -214,6 +217,8 @@
 				FF31DF1B1AB78F7F007CD1E1 /* SSEditGroupViewController.m */,
 				FF122B491AC084AF00435A65 /* SSGroupTableViewCell.h */,
 				FF122B4A1AC084AF00435A65 /* SSGroupTableViewCell.m */,
+				FF122B4C1AC1361300435A65 /* SSLoadingViewController.h */,
+				FF122B4D1AC1361300435A65 /* SSLoadingViewController.m */,
 			);
 			path = SmartSwitchiOS;
 			sourceTree = "<group>";
@@ -389,6 +394,7 @@
 				FF31DF161AB72066007CD1E1 /* SSGroupTableViewController.m in Sources */,
 				85C2F7591A3CF48300329C14 /* AFURLConnectionOperation.m in Sources */,
 				FFEBDF5B1A9E4A57002E3AC1 /* SSSwitchTableViewCell.m in Sources */,
+				FF122B4E1AC1361300435A65 /* SSLoadingViewController.m in Sources */,
 				85C2F7561A3CF48300329C14 /* AFImageRequestOperation.m in Sources */,
 				85C2F7201A3CD76100329C14 /* SSLoginViewController.m in Sources */,
 				FFEBDF491A8FCF99002E3AC1 /* SSCore.m in Sources */,

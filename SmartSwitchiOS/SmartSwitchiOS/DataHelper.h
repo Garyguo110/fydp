@@ -18,6 +18,8 @@
 
 @property(nonatomic, strong)NSString *authToken;
 @property(nonatomic, assign) BOOL DEBUG_MODE;
+@property (nonatomic, strong) NSString *access_token;
+
 
 - (void)initDatahelper;
 - (void)login:(void (^)(NSString *))authToken failure:(void (^)(NSString *))failure;

@@ -16,6 +16,10 @@
 
 @implementation SSEditGroupViewController {
     BOOL isAddLight;
+    BOOL isDeleteGroup;
+    NSIndexPath *indexToDelete;
+    UIView *loadingView;
+    UIActivityIndicatorView *spinner;
 }
 
 @synthesize group;
@@ -30,6 +34,16 @@
     self.nameField.text = tempName;
     self.nameField.delegate = self;
     self.nameField.borderStyle = UITextBorderStyleRoundedRect;
+//    loadingView = [[UIView alloc] initWithFrame:CGRectMake(0,
+//                                                                0,
+//                                                                [[UIScreen mainScreen] bounds].size.width,
+//                                                                [[UIScreen mainScreen] bounds].size.height)];
+//    loadingView.backgroundColor = [UIColor colorWithWhite:0.7 alpha:0.5];
+//    spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+//    spinner.center = loadingView.center;
+//    [loadingView addSubview:spinner];
+//    [spinner startAnimating];
+//    [self.navigationController.view addSubview:loadingView];
 
 }
 
@@ -55,13 +69,10 @@
 
 - (void)deleteCore:(id)sender {
     UITableViewCell *cell = (UITableViewCell *)[[SSManager sharedInstance] findSuperViewOf:sender WithClass:UITableViewCell.class];
-    NSIndexPath *ip = [self.editTableView indexPathForCell:cell];
-    if (ip.section == 0) {
-        [tempSwitches removeObjectAtIndex:ip.row];
-    } else {
-        [tempLights removeObjectAtIndex:ip.row];
-    }
-    [self.editTableView deleteRowsAtIndexPaths:@[ip] withRowAnimation:UITableViewRowAnimationAutomatic];
+    indexToDelete = [self.editTableView indexPathForCell:cell];
+    isDeleteGroup = NO;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Are you sure you want to delete?" message:@"Deleting this will remove it from this lighting group" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+    [alert show];
 }
 
 - (void)cancelEdits:(id)sender {
@@ -95,24 +106,32 @@
     }
     group.name = tempName;
     if (coresToAdd.count + coresToDelete.count > 0) {
+        [self performSegueWithIdentifier:@"Saving" sender:nil];
         __block int addRemoveCount = 0;
         for (SSCore *core in coresToAdd) {
             [[SSManager sharedInstance].dataHelper setCore:core.deviceId forGroup:group.groupId success:^(NSNumber *statusCode) {
                 addRemoveCount++;
                 [[SSManager sharedInstance] addCore:core toGroup:group];
                 if (addRemoveCount == coresToAdd.count + coresToDelete.count) {
-                    [self.navigationController popViewControllerAnimated:YES];
+                    [self dismissViewControllerAnimated:YES completion:^{
+                        [self.navigationController popViewControllerAnimated:YES];
+
+                    }];
+
                 }
             } failure:^(NSString *error) {
                 NSLog(error);
             }];
         }
         for (SSCore *core in coresToDelete) {
-            [[SSManager sharedInstance].dataHelper setCore:core.deviceId forGroup:group.groupId success:^(NSNumber *statusCode) {
+            [[SSManager sharedInstance].dataHelper setCore:core.deviceId forGroup:@"" success:^(NSNumber *statusCode) {
                 addRemoveCount++;
                 [[SSManager sharedInstance] removeCore:core fromGroup:group];
                 if (addRemoveCount == coresToDelete.count + coresToAdd.count) {
-                    [self.navigationController popViewControllerAnimated:YES];
+                    [self dismissViewControllerAnimated:YES completion:^{
+                        [self.navigationController popViewControllerAnimated:YES];
+
+                    }];
                 }
             } failure:^(NSString *error) {
                 NSLog(error);
@@ -125,6 +144,7 @@
 }
 
 - (void)deleteGroup:(id)sender {
+    isDeleteGroup = YES;
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Are you sure you want to delete?" message:@"Deleting this row will also delete all associated mapping information" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
     [alert show];
 }
@@ -133,17 +153,41 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1) {
-        __block int deleteCount = 0;
-        for (SSCore *core in group.switches) {
-            [[SSManager sharedInstance].dataHelper setCore:core.deviceId forGroup:@"" success:^(NSNumber *statusCode) {
-                deleteCount++;
-                if (deleteCount == group.switches.count) {
-                    [[SSManager sharedInstance] deleteGroup:group];
+        if (isDeleteGroup) {
+            if (group.switches.count == 0) {
+                [[SSManager sharedInstance] deleteGroup:group];
+                [self.navigationController popViewControllerAnimated:YES];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil userInfo:nil];
+            } else {
+                __block int deleteCount = 0;
+                [self performSegueWithIdentifier:@"Saving" sender:nil];
+                for (SSCore *core in group.switches) {
+                    [[SSManager sharedInstance].dataHelper setCore:core.deviceId forGroup:@"" success:^(NSNumber *statusCode) {
+                        deleteCount++;
+                        if (deleteCount == group.switches.count) {
+                            [self dismissViewControllerAnimated:YES completion:^{
+                                [[SSManager sharedInstance] deleteGroup:group];
+                                
+                                [self.navigationController popViewControllerAnimated:YES];
+                                [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil userInfo:nil];
+                            }];
+
+                        }
+                    } failure:^(NSString *error) {
+                        NSLog(error);
+                    }];
                 }
-            } failure:^(NSString *error) {
-                NSLog(error);
-            }];
+            }
+        } else {
+            if (indexToDelete.section == 0) {
+                [tempSwitches removeObjectAtIndex:indexToDelete.row];
+            } else {
+                [tempLights removeObjectAtIndex:indexToDelete.row];
+            }
+            [self.editTableView deleteRowsAtIndexPaths:@[indexToDelete] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.editTableView reloadData];
         }
+        
     }
 }
 
@@ -266,7 +310,21 @@
         SSLightViewController *lvc = segue.destinationViewController;
         lvc.group = self.group;
         lvc.isLights = isAddLight;
+        if (isAddLight) {
+            NSArray *availFromUnclaimed = [[SSManager sharedInstance].unclaimedLights filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"NOT(SELF IN %@)", tempLights]];
+            NSArray *availFromDeleted = [self.group.lights filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"NOT(SELF IN %@)", tempLights]];
+            lvc.availableCores = [availFromUnclaimed arrayByAddingObjectsFromArray:availFromDeleted];
+        } else {
+            NSArray *availFromUnclaimed = [[SSManager sharedInstance].unclaimedSwitches filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"NOT(SELF IN %@)", tempSwitches]];
+            NSArray *availFromDeleted = [self.group.switches filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"NOT(SELF IN %@)", tempSwitches]];
+            lvc.availableCores = [availFromUnclaimed arrayByAddingObjectsFromArray:availFromDeleted];
+
+        }
         lvc.editController = self;
+    }
+    if ([segue.identifier isEqualToString:@"Saving"]) {
+        UIViewController *vc = segue.destinationViewController;
+        vc.modalPresentationStyle = UIModalPresentationOverCurrentContext;
     }
 }
 

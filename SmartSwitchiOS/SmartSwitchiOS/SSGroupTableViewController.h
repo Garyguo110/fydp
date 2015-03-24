@@ -14,6 +14,7 @@
 @required
 - (void)selectedGroup:(SSGroup *)group;
 - (BOOL)isEditing;
+- (BOOL)isSaving;
 - (void)showDetails;
 
 @end
@@ -25,6 +26,7 @@
 - (void)groupDeleted;
 
 @end
+
 
 @interface SSGroupTableViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate, GroupSwitchedDelegate>
 

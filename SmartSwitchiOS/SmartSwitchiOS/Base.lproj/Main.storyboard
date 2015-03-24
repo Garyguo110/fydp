@@ -109,6 +109,7 @@
                     </navigationItem>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
+                        <outlet property="editButton" destination="xvf-m2-b7h" id="aLt-Uh-ZVl"/>
                         <outlet property="isOn" destination="G5d-LD-WIC" id="JXZ-0P-fM9"/>
                         <outlet property="mappingTableView" destination="jbF-qo-cIv" id="N5z-nV-X3Y"/>
                         <outlet property="nameLabel" destination="7iL-Cl-YDT" id="OzL-aB-qcx"/>
@@ -118,6 +119,30 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gYE-cU-78P" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="314.5" y="-1326"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="7Ka-DJ-iT8">
+            <objects>
+                <viewController id="ABn-yo-XiK" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eoI-3I-UVj"/>
+                        <viewControllerLayoutGuide type="bottom" id="N26-aG-sCT"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="EIE-Ep-IPQ">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="qml-U3-myB">
+                                <rect key="frame" x="352" y="374" width="37" height="37"/>
+                                <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kNl-JR-5G2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1236" y="-2283"/>
         </scene>
         <!--Edit Group-->
         <scene sceneID="vtL-HP-LdK">
@@ -184,9 +209,9 @@
                                 </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s7A-vy-sCy">
-                                <rect key="frame" x="322" y="677" width="58" height="30"/>
+                                <rect key="frame" x="298" y="677" width="107" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="Delete">
+                                <state key="normal" title="Delete Group">
                                     <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -213,6 +238,7 @@
                         <outlet property="editTableView" destination="aex-uS-jvT" id="4MU-dV-wXc"/>
                         <outlet property="nameField" destination="8cT-ZK-nhF" id="gv6-8a-tAi"/>
                         <segue destination="c3M-Fm-7CW" kind="push" identifier="AddCore" id="A5D-0v-8Xa"/>
+                        <segue destination="ABn-yo-XiK" kind="modal" identifier="Saving" id="Dr1-lu-OC7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EUo-Ko-qkR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -311,7 +337,7 @@
                                                 </label>
                                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z15-FO-jcf">
                                                     <rect key="frame" x="8" y="15" width="16" height="16"/>
-                                                    <color key="backgroundColor" red="0.25882352941176473" green="0.82745098039215681" blue="0.31372549019607843" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                             <integer key="value" value="8"/>
@@ -337,11 +363,30 @@
                     </view>
                     <connections>
                         <outlet property="groupTableView" destination="eZa-3i-dit" id="Tsu-sA-Stc"/>
+                        <segue destination="owP-5W-huS" kind="modal" identifier="loading" id="x1v-Nd-J1a"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oAx-rk-c4Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-680" y="-2438"/>
+        </scene>
+        <!--Loading View Controller-->
+        <scene sceneID="VPC-6y-qVJ">
+            <objects>
+                <viewController id="owP-5W-huS" customClass="SSLoadingViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="R7Z-Um-uKL"/>
+                        <viewControllerLayoutGuide type="bottom" id="JLv-om-DOm"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="xdu-uf-SEi">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yNh-l3-C6Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-664" y="-3399"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="RMT-VR-kHy">

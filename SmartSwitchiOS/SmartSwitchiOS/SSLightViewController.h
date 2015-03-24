@@ -24,6 +24,7 @@
 @property (nonatomic, assign) BOOL isGroupOn;
 @property (nonatomic, assign) BOOL isLights;
 @property (nonatomic, strong) SSEditGroupViewController *editController;
+@property (nonatomic, strong) NSArray *availableCores;
 
 - (IBAction)cancel:(id)sender;
 - (IBAction)done:(id)sender;

@@ -45,7 +45,7 @@
 - (id)init {
     if(self == [super init]) {
         dataHelper = [[DataHelper allocWithZone:nil] initWithBaseURL:[NSURL URLWithString:@"https://api.spark.io"]];
-        dataHelper.DEBUG_MODE = YES;
+        dataHelper.DEBUG_MODE = NO;
         unclaimedLights = [[NSMutableArray alloc] init];
         unclaimedSwitches = [[NSMutableArray alloc] init];
         unclaimedIds = [[NSMutableArray alloc] init];
@@ -62,7 +62,7 @@
                                              @"MC3C151276ML",
                                              @"MC38A51276MR",
                                              @"MC44251276MR",
-                                             @"MS1B851236MR", nil] : [[NSArray alloc] initWithObjects:@"53ff6a066667574829572567",@"55ff74066678505506381367", @"54ff6c066667515128301467", nil];
+                                             @"MS1B851236MR", nil] : [[NSArray alloc] initWithObjects:@"53ff6a066667574829572567",@"55ff74066678505506381367", nil];
     }
     return self;
 }
@@ -78,22 +78,31 @@
 
 - (void)addCore:(SSCore *)core toGroup:(SSGroup *)group {
     if (core.isSwitch) {
-        [unclaimedSwitches removeObject:core];
-        [group.switches addObject:core];
+        if (![group.switches containsObject:core]) {
+            [unclaimedSwitches removeObject:core];
+            [group.switches addObject:core];
+        }
     } else {
-        [unclaimedLights removeObject:core];
-        [group.lights addObject:core];
+        if (![group.lights containsObject:core]) {
+            [unclaimedLights removeObject:core];
+            [group.lights addObject:core];
+        }
     }
     [self saveData];
 }
 
 - (void)removeCore:(SSCore *)core fromGroup:(SSGroup *)group {
+
     if (core.isSwitch) {
-        [group.switches removeObject:core];
-        [unclaimedSwitches addObject:core];
+        if ([group.switches containsObject:core]) {
+            [group.switches removeObject:core];
+            [unclaimedSwitches addObject:core];
+        }
     } else {
-        [group.lights removeObject:core];
-        [unclaimedLights addObject:core];
+        if ([group.lights containsObject:core]) {
+            [group.lights removeObject:core];
+            [unclaimedLights addObject:core];
+        }
     }
     [self saveData];
 }

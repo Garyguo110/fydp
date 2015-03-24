@@ -30,20 +30,6 @@
     gtvc.delegate = gdvc;
     gdvc.delegate = gtvc;
 
-    [[SSManager sharedInstance].dataHelper login:^(NSString *token) {
-        [[SSManager sharedInstance].dataHelper getDevices:^(NSArray *ids) {
-            [[SSManager sharedInstance] setUnclaimedIds:ids];
-        } failure:^(NSString *error) {
-            NSLog(error);
-        }];
-        
-    } failure:^(NSString *error) {
-        NSLog(error);
-    }];
-    
-    if ([[SSManager sharedInstance] groups].count > 0) {
-        [gdvc setGroupValue:[[SSManager sharedInstance].groups objectAtIndex:0]];
-    }
     return YES;
 }
 

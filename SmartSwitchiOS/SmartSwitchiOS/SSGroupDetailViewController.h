@@ -17,7 +17,7 @@
 @property (nonatomic, strong) IBOutlet UILabel *nameLabel;
 @property (nonatomic, strong) IBOutlet UITableView *mappingTableView;
 @property (nonatomic, strong) IBOutlet UISwitch *isOn;
-@property (nonatomic, strong) IBOutlet UIButton *editButton;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *editButton;
 @property (nonatomic, assign) id<GroupSwitchedDelegate> delegate;
 
 - (IBAction)addLight:(id)sender;

@@ -40,12 +40,14 @@ void setup() {
 void loop() {
   String s = state;
   if(s == "SWITCH" && switchState == 0 && digitalRead(input1) == HIGH ) {
+    strcpy(a,"c");
     Spark.publish("flip_switch", groupId);
     switchState = 1;
     digitalWrite(power, HIGH);
     delay(250);
   }
   if(s == "SWITCH" && switchState == 1 && digitalRead(input1) == LOW ) {
+    strcpy(a,"c");
     Spark.publish("flip_switch", groupId);
     switchState = 0;
     digitalWrite(power, LOW);
@@ -139,12 +141,17 @@ void switchHandler(const char *event, const char *data) {
   String s = state;
   if(groupId[0] != '\0' && s == "LIGHT" && strstr(data, groupId) != NULL )
   {
+    strcpy(a, "b");
     if( lightState == 0 ){
+      strcpy(a, "d");
+
       digitalWrite(power, HIGH);
       digitalWrite(output1, HIGH);
       lightState = 1;
     }
     else {
+      strcpy(a, "e");
+
       digitalWrite(power, LOW);
       digitalWrite(output1, LOW);
       lightState = 0;

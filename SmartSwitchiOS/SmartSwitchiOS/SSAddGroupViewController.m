@@ -68,10 +68,11 @@
     if (group != nil) {
         group.name = name;
     } else {
-        SSGroup *group = [[SSGroup alloc] initWithName:name];
+        group = [[SSGroup alloc] initWithName:name];
         [[SSManager sharedInstance].groups addObject:group];
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil];
+    NSDictionary *dict = [NSDictionary dictionaryWithObject:group forKey:@"group"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTableView" object:nil userInfo:dict];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

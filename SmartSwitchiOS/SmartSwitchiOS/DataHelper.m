@@ -12,7 +12,6 @@
 @interface DataHelper ()
 
 @property (nonatomic, strong) dispatch_queue_t webQueue;
-@property (nonatomic, strong) NSString *access_token;
 
 @end
 
@@ -21,6 +20,7 @@
 
 @synthesize authToken;
 @synthesize DEBUG_MODE;
+@synthesize access_token;
 
 //NSString *sparkAuthTokenURL = @"https://api.spark.io/oauth/token";
 /*

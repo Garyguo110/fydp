@@ -30,6 +30,19 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    if ([[SSManager sharedInstance].dataHelper access_token] == nil) {
+        [self performSegueWithIdentifier:@"loading" sender:nil];
+    } else {
+
+    
+    if ([SSManager sharedInstance].groups.count > 0) {
+        [self.delegate selectedGroup:[[SSManager sharedInstance].groups objectAtIndex:0]];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+        [self.groupTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
+        [self tableView:self.groupTableView didSelectRowAtIndexPath:indexPath];
+    }
+    }
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     refreshControl.backgroundColor = [UIColor whiteColor];
     refreshControl.tintColor = [UIColor lightGrayColor];
@@ -37,13 +50,6 @@
     [self.groupTableView addSubview:refreshControl];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView:) name:@"reloadTableView" object:nil];
-    
-    if ([SSManager sharedInstance].groups.count > 0) {
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-        [self.groupTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
-        [self tableView:self.groupTableView didSelectRowAtIndexPath:indexPath];
-    }
-    
     
 }
 
@@ -59,8 +65,23 @@
     [self.groupTableView selectRowAtIndexPath:savedSelection animated:YES scrollPosition:UITableViewScrollPositionTop];
 }
 
-- (void)reloadTableView:(id)sender {
-    [self.groupTableView reloadData];
+- (void)reloadTableView:(NSNotification *)note {
+    if (note.userInfo != nil) {
+        SSGroup *newGroup = [note.userInfo objectForKey:@"group"];
+        [self.groupTableView reloadData];
+        NSUInteger indexRow = [[SSManager sharedInstance].groups indexOfObject:newGroup];
+        [self.groupTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:indexRow inSection:0] animated:YES scrollPosition:UITableViewScrollPositionTop];
+        [self tableView:self.groupTableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:indexRow inSection:0]];
+    } else {
+        [self.groupTableView reloadData];
+        if ([[SSManager sharedInstance].groups count] > 0) {
+            NSIndexPath *ip = [NSIndexPath indexPathForRow:0 inSection:0];
+            [self.groupTableView selectRowAtIndexPath:ip animated:YES scrollPosition:UITableViewScrollPositionTop];
+            [self tableView:self.groupTableView didSelectRowAtIndexPath:ip];
+        } else {
+            [self.delegate selectedGroup:nil];
+        }
+    }
 }
 
 - (void)groupDeleted {
@@ -92,15 +113,13 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return [[SSManager sharedInstance].groups count];
+    return [[SSManager sharedInstance].dataHelper access_token] == nil ? 0 : [[SSManager sharedInstance].groups count];
 }
 
 
@@ -116,10 +135,12 @@
         if ([[SSManager sharedInstance].dataHelper DEBUG_MODE]) {
             cell.onView.backgroundColor = group.isOn ? [UIColor colorWithRed:66.0f/255 green:211.0f/255 blue:80.0f/255 alpha:1.0f] : [UIColor colorWithWhite:0.8 alpha:1.0];
         } else {
-            [[SSManager sharedInstance].dataHelper getLightState:[group.lights objectAtIndex:0] success:^(NSNumber *state) {
+            [[SSManager sharedInstance].dataHelper getLightState:[[group.lights objectAtIndex:0] deviceId] success:^(NSNumber *state) {
                 group.isOn = state.integerValue == 1;
                 cell.onView.backgroundColor = group.isOn ? [UIColor colorWithRed:66.0f/255 green:211.0f/255 blue:80.0f/255 alpha:1.0f] : [UIColor colorWithWhite:0.8 alpha:1.0];
-                [self.delegate selectedGroup:group];
+                if ([indexPath isEqual:[self.groupTableView indexPathForSelectedRow]]) {
+                    [self.delegate selectedGroup:group];
+                }
             } failure:^(NSString *error) {
                 NSLog(error);
             }];
@@ -133,6 +154,11 @@
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.delegate isSaving]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Saving Data" message:@"Can not switch groups while saving data" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alert show];
+        return nil;
+    }
     if ([self.delegate isEditing]) {
         indexToSelect = indexPath;
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Are You Sure?" message:@"Are you sure you want to change groups? Switching groups will cancel all edits" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
@@ -192,6 +218,25 @@
     if ([segue.identifier isEqualToString:@"AddGroup"]) {
         SSAddGroupViewController *agvc = segue.destinationViewController;
         agvc.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    }
+    if ([segue.identifier isEqualToString:@"loading"]) {
+        [[SSManager sharedInstance].dataHelper login:^(NSString *token) {
+            [[SSManager sharedInstance].dataHelper getDevices:^(NSArray *ids) {
+                [[SSManager sharedInstance] setUnclaimedIds:ids];
+                [self.groupTableView reloadData];
+                if ([SSManager sharedInstance].groups.count > 0) {
+                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+                    [self.groupTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
+                    [self tableView:self.groupTableView didSelectRowAtIndexPath:indexPath];
+                }
+            } failure:^(NSString *error) {
+                NSLog(error);
+            }];
+            
+        } failure:^(NSString *error) {
+            NSLog(error);
+        }];
+        
     }
 }
 
