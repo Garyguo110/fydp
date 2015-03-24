@@ -13,11 +13,24 @@
 
 @required
 - (void)selectedGroup:(SSGroup *)group;
+- (BOOL)isEditing;
+- (void)showDetails;
 
 @end
 
-@interface SSGroupTableViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@protocol GroupSwitchedDelegate <NSObject>;
+
+@required
+- (void)groupSwitched:(SSGroup *)group;
+
+@end
+
+@interface SSGroupTableViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate, GroupSwitchedDelegate>
 
 @property (nonatomic, assign) id<GroupSelectionDelegate> delegate;
+@property (nonatomic, strong) IBOutlet UITableView *groupTableView;
+
+- (IBAction)refreshView:(UIRefreshControl *)sender;
+- (IBAction)reloadTableView:(id)sender;
 
 @end

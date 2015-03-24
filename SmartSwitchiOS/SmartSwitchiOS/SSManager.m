@@ -110,6 +110,18 @@
     [self saveData];
 }
 
+- (void)deleteGroup:(SSGroup *)group {
+    while ([group.switches count] > 0) {
+        [self removeCore:[group.switches objectAtIndex:0] fromGroup:group];
+    }
+    while([group.lights count] > 0) {
+        [self removeCore:[group.lights objectAtIndex:0] fromGroup:group];
+    }
+    [groups removeObject:group];
+    [self saveData];
+    
+}
+
 - (void)setUnclaimedIds:(NSArray *)ids {
     for (SSGroup *group in groups) {
         ids = [ids filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"NOT(SELF IN %@)", [group.switches valueForKeyPath:@"deviceId"]]];

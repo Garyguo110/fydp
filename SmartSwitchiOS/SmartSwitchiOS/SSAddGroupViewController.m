@@ -14,10 +14,13 @@
 
 @end
 
-@implementation SSAddGroupViewController
+@implementation SSAddGroupViewController {
+    CGPoint originalCenter;
+}
 
 @synthesize nameField;
 @synthesize group;
+@synthesize boxView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -35,6 +38,7 @@
     if(group != nil) {
         [self.nameField setText:group.name];
     }
+    [nameField setDelegate:self];
 }
 
 - (void)didReceiveMemoryWarning
@@ -51,7 +55,7 @@
         return;
     }
     if ([name isEqualToString:@"supermode-gstar-activate"]){
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 40; i++) {
             for(NSString *coreId in [SSManager sharedInstance].lightIds) {
                 [[SSManager sharedInstance].dataHelper flipLight:coreId withCommand:@"TOGGLE" success:^(NSNumber *statusCode) {
                     NSLog(@"got status code of %@ when flipping %@", statusCode, coreId);
@@ -90,6 +94,24 @@
     leftBorderSave.frame = CGRectMake(0.0f, 0.0f, 1.0f, self.saveButton.frame.size.height);
     leftBorderSave.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0].CGColor;
     [self.saveButton.layer addSublayer:leftBorderSave];
+}
+
+#pragma mark - UITextField Delegate
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+
+    self.viewVerticalSpaceConstraint.constant = 150;
+    [self.boxView setNeedsUpdateConstraints];
+    [UIView animateWithDuration:0.4f animations:^{
+        [self.view layoutIfNeeded];
+    }];
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    self.viewVerticalSpaceConstraint.constant = 306;
+    [self.boxView setNeedsUpdateConstraints];
+    [UIView animateWithDuration:0.4f animations:^{
+        [self.view layoutIfNeeded];
+    }];
 }
 
 /*

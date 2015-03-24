@@ -28,9 +28,19 @@
     SSGroupDetailViewController *gdvc = (SSGroupDetailViewController *)[rightNavController topViewController];
     
     gtvc.delegate = gdvc;
+    gdvc.delegate = gtvc;
+    if ([SSManager sharedInstance].groups.count > 0) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+        [gtvc.groupTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
+    }
     
-    [[SSManager sharedInstance].dataHelper getDevices:^(NSArray *ids) {
-        [[SSManager sharedInstance] setUnclaimedIds:ids];
+    [[SSManager sharedInstance].dataHelper login:^(NSString *token) {
+        [[SSManager sharedInstance].dataHelper getDevices:^(NSArray *ids) {
+            [[SSManager sharedInstance] setUnclaimedIds:ids];
+        } failure:^(NSString *error) {
+            NSLog(error);
+        }];
+        
     } failure:^(NSString *error) {
         NSLog(error);
     }];

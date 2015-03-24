@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SSGroup.h"
 
-@interface SSEditGroupViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
+@interface SSEditGroupViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, strong) IBOutlet UITextField *nameField;
 @property (nonatomic, strong) IBOutlet UITableView *editTableView;
@@ -21,5 +21,9 @@
 
 - (IBAction)addLight:(id)sender;
 - (IBAction)addSwitch:(id)sender;
+- (IBAction)deleteCore:(id)sender;
+- (IBAction)saveEdits:(id)sender;
+- (IBAction)cancelEdits:(id)sender;
+- (IBAction)deleteGroup:(id)sender;
 
 @end

@@ -22,10 +22,16 @@
 @synthesize group;
 @synthesize nameLabel;
 @synthesize mappingTableView;
+@synthesize isOn;
+@synthesize editButton;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [isOn setOn:YES animated:NO];
+    [self.mappingTableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
+    [isOn addTarget:self action:@selector(switchGroup:) forControlEvents:UIControlEventValueChanged];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -45,9 +51,20 @@
     [self refreshView];
 }
 
+- (BOOL)isEditing {
+    return self.navigationController.visibleViewController != self;
+}
+
+- (void)showDetails {
+    while (self.navigationController.visibleViewController != self) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
 - (void)refreshView {
     nameLabel.text = group.name;
     [mappingTableView reloadData];
+    [isOn setOn:group.isOn animated:YES];
 }
 
 - (void)addLight:(id)sender {
@@ -68,6 +85,10 @@
     [self performSegueWithIdentifier:@"EditGroup" sender:sender];
 }
 
+- (void)switchGroup:(id)sender {
+    [self.delegate groupSwitched:group];
+}
+
 
 #pragma mark LightViewControllerDelegate;
 
@@ -78,6 +99,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CoreCell"];
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     if(!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CoreCell"];
@@ -160,6 +183,7 @@
         }
         egvc.tempSwitches = [NSMutableArray arrayWithArray:group.switches];
         egvc.tempLights = [NSMutableArray arrayWithArray:group.lights];
+        egvc.group = group;
     }
 }
 

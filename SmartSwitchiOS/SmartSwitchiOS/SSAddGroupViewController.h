@@ -9,11 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "SSGroup.h"
 
-@interface SSAddGroupViewController : UIViewController
+@interface SSAddGroupViewController : UIViewController <UITextFieldDelegate>
 
 @property (nonatomic, strong) IBOutlet UITextField *nameField;
 @property (nonatomic, strong) IBOutlet UIButton *saveButton;
 @property (nonatomic, strong) IBOutlet UIButton *cancelButton;
+@property (nonatomic, strong) IBOutlet UIView *boxView;
+@property (nonatomic, strong) IBOutlet NSLayoutConstraint *viewVerticalSpaceConstraint;
 @property (nonatomic, strong) SSGroup *group;
 
 -(IBAction)saveGroup:(id)sender;

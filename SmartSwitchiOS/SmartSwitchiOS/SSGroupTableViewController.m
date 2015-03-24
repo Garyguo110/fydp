@@ -9,12 +9,17 @@
 #import "SSGroupTableViewController.h"
 #import "SSManager.h"
 #import "SSGroup.h"
+#import "SSAddGroupViewController.h"
+#import "SSGroupTableViewCell.h"
 
 @interface SSGroupTableViewController ()
 
 @end
 
-@implementation SSGroupTableViewController
+@implementation SSGroupTableViewController {
+    NSIndexPath *indexToSelect;
+    NSIndexPath *oldIndex;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -24,11 +29,45 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    refreshControl.backgroundColor = [UIColor whiteColor];
+    refreshControl.tintColor = [UIColor lightGrayColor];
+    [refreshControl addTarget:self action:@selector(refreshView:) forControlEvents:UIControlEventValueChanged];
+    [self.groupTableView addSubview:refreshControl];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView:) name:@"reloadTableView" object:nil];
+    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)refreshView:(UIRefreshControl *)sender {
+    [self.groupTableView reloadData];
+    [sender endRefreshing];
+}
+
+- (void)reloadTableView:(id)sender {
+    [self.groupTableView reloadData];
+}
+
+#pragma mark group switched delegate
+- (void)groupSwitched:(SSGroup *)group {
+    group.isOn = !group.isOn;
+    [self.groupTableView reloadData];
+}
+
+#pragma mark - Alert View Delegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        [self.delegate showDetails];
+        [self.groupTableView selectRowAtIndexPath:indexToSelect animated:YES scrollPosition:UITableViewScrollPositionBottom];
+        [self tableView:self.groupTableView didSelectRowAtIndexPath:indexToSelect];
+        
+    }
 }
 
 #pragma mark - Table view data source
@@ -47,15 +86,37 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GroupCell" forIndexPath:indexPath];
+    SSGroupTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GroupCell" forIndexPath:indexPath];
     if(!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"GroupCell"];
+        cell = [[SSGroupTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"GroupCell"];
     }
     SSGroup *group = [[SSManager sharedInstance].groups objectAtIndex:indexPath.row];
     // Configure the cell...
-    cell.textLabel.text = group.name;
+    cell.nameLabel.text = group.name;
+    if(group.lights.count > 0) {
+        [[SSManager sharedInstance].dataHelper getLightState:[group.lights objectAtIndex:0] success:^(NSNumber *state) {
+            group.isOn = state.integerValue == 1;
+            cell.onView.backgroundColor = group.isOn ? [UIColor colorWithRed:66.0f/255 green:211.0f/255 blue:80.0f/255 alpha:1.0f] : [UIColor colorWithWhite:0.8 alpha:1.0];
+            [self.delegate selectedGroup:group];
+        } failure:^(NSString *error) {
+            NSLog(error);
+        }];
+    } else {
+        cell.onView.backgroundColor = [UIColor colorWithWhite:0.8 alpha:1.0];
+    }
+    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     
     return cell;
+}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.delegate isEditing]) {
+        indexToSelect = indexPath;
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Are You Sure?" message:@"Are you sure you want to change groups? Switching groups will cancel all edits" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+        [alert show];
+        return nil;
+    }
+    return indexPath;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -98,14 +159,17 @@
 }
 */
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([segue.identifier isEqualToString:@"AddGroup"]) {
+        SSAddGroupViewController *agvc = segue.destinationViewController;
+        agvc.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    }
 }
-*/
 
 @end
