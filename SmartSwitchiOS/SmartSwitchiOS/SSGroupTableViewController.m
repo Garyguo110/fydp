@@ -19,6 +19,7 @@
 @implementation SSGroupTableViewController {
     NSIndexPath *indexToSelect;
     NSIndexPath *oldIndex;
+    NSIndexPath *savedSelection;
 }
 
 - (void)viewDidLoad {
@@ -37,6 +38,13 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView:) name:@"reloadTableView" object:nil];
     
+    if ([SSManager sharedInstance].groups.count > 0) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+        [self.groupTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
+        [self tableView:self.groupTableView didSelectRowAtIndexPath:indexPath];
+    }
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -45,18 +53,29 @@
 }
 
 - (void)refreshView:(UIRefreshControl *)sender {
+    savedSelection = [self.groupTableView indexPathForSelectedRow];
     [self.groupTableView reloadData];
     [sender endRefreshing];
+    [self.groupTableView selectRowAtIndexPath:savedSelection animated:YES scrollPosition:UITableViewScrollPositionTop];
 }
 
 - (void)reloadTableView:(id)sender {
     [self.groupTableView reloadData];
 }
 
+- (void)groupDeleted {
+    [self.groupTableView reloadData];
+    if([SSManager sharedInstance].groups.count > 0) {
+        [self.groupTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionTop];
+        [self tableView:self.groupTableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    }
+}
+
 #pragma mark group switched delegate
 - (void)groupSwitched:(SSGroup *)group {
-    group.isOn = !group.isOn;
-    [self.groupTableView reloadData];
+    NSUInteger indexRow = [[SSManager sharedInstance].groups indexOfObject:group];
+    SSGroupTableViewCell *cell = (SSGroupTableViewCell *)[self.groupTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexRow inSection:0]];
+    cell.onView.backgroundColor = group.isOn ? [UIColor colorWithRed:66.0f/255 green:211.0f/255 blue:80.0f/255 alpha:1.0f] : [UIColor colorWithWhite:0.8 alpha:1.0];
 }
 
 #pragma mark - Alert View Delegate
@@ -94,13 +113,17 @@
     // Configure the cell...
     cell.nameLabel.text = group.name;
     if(group.lights.count > 0) {
-        [[SSManager sharedInstance].dataHelper getLightState:[group.lights objectAtIndex:0] success:^(NSNumber *state) {
-            group.isOn = state.integerValue == 1;
+        if ([[SSManager sharedInstance].dataHelper DEBUG_MODE]) {
             cell.onView.backgroundColor = group.isOn ? [UIColor colorWithRed:66.0f/255 green:211.0f/255 blue:80.0f/255 alpha:1.0f] : [UIColor colorWithWhite:0.8 alpha:1.0];
-            [self.delegate selectedGroup:group];
-        } failure:^(NSString *error) {
-            NSLog(error);
-        }];
+        } else {
+            [[SSManager sharedInstance].dataHelper getLightState:[group.lights objectAtIndex:0] success:^(NSNumber *state) {
+                group.isOn = state.integerValue == 1;
+                cell.onView.backgroundColor = group.isOn ? [UIColor colorWithRed:66.0f/255 green:211.0f/255 blue:80.0f/255 alpha:1.0f] : [UIColor colorWithWhite:0.8 alpha:1.0];
+                [self.delegate selectedGroup:group];
+            } failure:^(NSString *error) {
+                NSLog(error);
+            }];
+        }
     } else {
         cell.onView.backgroundColor = [UIColor colorWithWhite:0.8 alpha:1.0];
     }

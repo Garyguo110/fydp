@@ -10,6 +10,7 @@
 #import "SSEditGroupViewController.h"
 #import "SSLightViewController.h"
 #import "SSCore.h"
+#import "SSManager.h"
 
 @interface SSGroupDetailViewController ()
 
@@ -86,7 +87,21 @@
 }
 
 - (void)switchGroup:(id)sender {
-    [self.delegate groupSwitched:group];
+    __block int lightCount = 0;
+    __block BOOL isGroupOn = isOn.isOn;
+    for (SSCore *core in group.lights) {
+        NSString *command = self.isOn.isOn ? @"ON" : @"OFF";
+        [[SSManager sharedInstance].dataHelper flipLight:core.deviceId withCommand:command success:^(NSNumber *statusCode) {
+            NSLog(@"Got status %@ when flipping light %@", statusCode, core.deviceId);
+            lightCount++;
+            if (group.lights.count == lightCount) {
+                group.isOn = isGroupOn;
+                [self.delegate groupSwitched:group];
+            }
+        } failure:^(NSString *error) {
+            NSLog(error);
+        }];
+    }
 }
 
 

@@ -22,6 +22,7 @@
 
 @required
 - (void)groupSwitched:(SSGroup *)group;
+- (void)groupDeleted;
 
 @end
 
